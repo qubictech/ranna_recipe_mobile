@@ -1,8 +1,9 @@
-package rannaghor.recipe.tarmsbd.com
+package rannaghor.recipe.tarmsbd.com.ui.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import rannaghor.recipe.tarmsbd.com.R
 
 class LoginActivity : AppCompatActivity() {
 
