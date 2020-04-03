@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.R
+import rannaghor.recipe.tarmsbd.com.utility.Constraints
 
 class SplashActivity : AppCompatActivity() {
 

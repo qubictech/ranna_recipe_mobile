@@ -17,25 +17,19 @@ object RannaghorRepository {
         Category("", "Beef")
     )
 
-    private val recipes = mutableListOf(
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100),
-        Recipe("Chicken Curry", 100, 100)
-    )
     private val category = MutableLiveData<List<Category>>()
     private val recipe = MutableLiveData<List<Recipe>>()
 
     init {
         category.value = categories
-        recipe.value = recipes
+//        recipe.value = recipes
     }
 
     fun getAllCategories(): LiveData<List<Category>> = category
 
     fun getAllRecipes(): LiveData<List<Recipe>> = recipe
+
+    fun setAllRecipes(recipes: List<Recipe>) {
+        recipe.value = recipes
+    }
 }
