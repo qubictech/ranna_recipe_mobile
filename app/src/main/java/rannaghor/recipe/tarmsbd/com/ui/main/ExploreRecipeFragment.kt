@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import rannaghor.recipe.tarmsbd.com.R
+import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
@@ -35,6 +37,7 @@ class ExploreRecipeFragment : Fragment() {
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
 
         getAllCategories()
+        getAllRecipes()
     }
 
     private fun getAllCategories() {
@@ -44,6 +47,17 @@ class ExploreRecipeFragment : Fragment() {
                 hasFixedSize()
                 layoutManager = GridLayoutManager(context, 4)
                 adapter = categoryAdapter
+            }
+        })
+    }
+
+    private fun getAllRecipes() {
+        rannaghorViewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {
+            val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
+            recyclerViewPopularRecipe.apply {
+                hasFixedSize()
+                layoutManager = LinearLayoutManager(context)
+                adapter = recipeAdapter
             }
         })
     }

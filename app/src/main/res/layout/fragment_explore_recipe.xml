@@ -2,13 +2,16 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_to_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.ExploreRecipeFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="50dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -71,9 +74,9 @@
                 android:imeOptions="actionGo"
                 android:inputType="text"
                 android:minHeight="45dp"
-                android:singleLine="true"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:singleLine="true"
                 app:layout_constraintEnd_toEndOf="@id/guideline_right"
                 app:layout_constraintStart_toStartOf="@id/guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/greetings_name" />
@@ -132,7 +135,7 @@
                 android:fontFamily="@font/nunito_sans"
                 android:text="Explore by category"
                 android:textColor="#000"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@id/guideline_left"
                 app:layout_constraintTop_toBottomOf="@+id/main_banner" />
 
@@ -141,6 +144,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:overScrollMode="never"
                 android:padding="18dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="@id/guideline_right"
@@ -160,7 +164,7 @@
                 android:fontFamily="@font/nunito_sans"
                 android:text="Popular Recipe"
                 android:textColor="#000"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@id/guideline_left"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_categories" />
 
@@ -169,6 +173,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:overScrollMode="never"
                 app:layout_constraintEnd_toEndOf="@id/guideline_right"
                 app:layout_constraintStart_toStartOf="@id/guideline_left"
                 app:layout_constraintTop_toBottomOf="@+id/explore_popular_recipe"
