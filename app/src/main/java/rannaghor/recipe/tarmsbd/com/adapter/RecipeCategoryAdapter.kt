@@ -20,7 +20,7 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
 
         fun bind(context: Context, category: Category) {
             name.text = category.name
-            Glide.with(context).load(category.iconUrl).into(icon)
+            Glide.with(context).load(category.images).into(icon)
         }
     }
 

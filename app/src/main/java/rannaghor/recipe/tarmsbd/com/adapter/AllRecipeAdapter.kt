@@ -17,8 +17,8 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         private val comments = itemView.findViewById<TextView>(R.id.recipe_comments_count)
         fun bind(context: Context, recipe: Recipe) {
             name.text = recipe.name
-            likes.text = "${recipe.likes} +"
-            comments.text = "${recipe.comments} +"
+//            likes.text = "${recipe.likes} +"
+//            comments.text = "${recipe.comments} +"
         }
     }
 
