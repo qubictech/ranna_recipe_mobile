@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/recipe_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/main_banner_background" />
+
+    <TextView
+        android:id="@+id/recipe_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/recipe_image"
+        android:fontFamily="@font/nunito_sans"
+        android:text="Chicken Curry"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recipe_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@id/recipe_image">
+
+        <TextView
+            android:id="@+id/recipe_likes_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_heart_outline"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/nunito_sans_light"
+            android:gravity="center_vertical"
+            android:text="100+" />
+
+        <TextView
+            android:id="@+id/recipe_comments_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_message_square_outline"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/nunito_sans_light"
+            android:gravity="center_vertical"
+            android:text="100+" />
+    </LinearLayout>
+</RelativeLayout>
