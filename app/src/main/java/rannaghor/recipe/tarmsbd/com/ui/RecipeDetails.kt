@@ -12,4 +12,5 @@ class RecipeDetails : AppCompatActivity() {
 
 
     }
+
 }
