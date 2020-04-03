@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.ui.login
+package rannaghor.recipe.tarmsbd.com.ui.authentications
 
 import android.content.Intent
 import android.os.Bundle

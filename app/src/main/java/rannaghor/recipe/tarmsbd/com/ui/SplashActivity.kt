@@ -4,9 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.R
-import rannaghor.recipe.tarmsbd.com.ui.login.LoginActivity
+import rannaghor.recipe.tarmsbd.com.ui.authentications.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
 

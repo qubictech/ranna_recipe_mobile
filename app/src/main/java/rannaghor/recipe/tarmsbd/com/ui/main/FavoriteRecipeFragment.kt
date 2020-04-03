@@ -1,41 +1,34 @@
-package rannaghor.recipe.tarmsbd.com.ui.login
+package rannaghor.recipe.tarmsbd.com.ui.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 import rannaghor.recipe.tarmsbd.com.R
 
 /**
  * A simple [Fragment] subclass.
  */
-class SingUpFragment : Fragment() {
+class FavoriteRecipeFragment : Fragment() {
+
+    private lateinit var recyclerView: RecyclerView;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sing_up, container, false)
+        return inflater.inflate(R.layout.fragment_favorite_recipe, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.texViewLogin)
-            .setOnClickListener {
-                val loginActivity: LoginActivity =activity as LoginActivity
-                loginActivity.StartFragment(LoginFragment())
 
-
-            }
-
-
+        recyclerView=view.findViewById(R.id.favorite_recipe)
 
     }
-
-
 
 }
