@@ -1,10 +1,12 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import rannaghor.recipe.tarmsbd.com.R
+import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
                     R.id.fragment_container,
                     FavoriteRecipeFragment()
                 ).commit()
+
+                R.id.menu_preference -> startActivity(Intent(applicationContext,RecipeDetails::class.java))
             }
             return@setOnNavigationItemSelectedListener true
         }
