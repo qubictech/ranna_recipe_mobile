@@ -20,6 +20,7 @@ import io.reactivex.schedulers.Schedulers
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
+import rannaghor.recipe.tarmsbd.com.model.Category
 import rannaghor.recipe.tarmsbd.com.model.Recipe
 import rannaghor.recipe.tarmsbd.com.repository.RannaghorRepository
 import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
@@ -63,12 +64,25 @@ class ExploreRecipeFragment : Fragment() {
                 )
         )
 
+        compositeDisposable.add(
+            rannaghorRetrofitService.category
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    this::allCategory, this::handleError
+                )
+        )
+
         getAllCategories()
         getAllRecipes()
     }
 
     private fun allRecipes(recipes: List<Recipe>) {
         RannaghorRepository.setAllRecipes(recipes)
+    }
+
+    private fun allCategory(category: List<Category>) {
+        RannaghorRepository.setAllCategory(category)
     }
 
     private fun handleError(error: Throwable) {
