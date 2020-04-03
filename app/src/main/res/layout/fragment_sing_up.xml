@@ -13,7 +13,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/nunito_sans_semibold"
-        android:text="Login"
+        android:text="Sign Up"
         android:textColor="#000"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_sans"
-        android:text="Don't have an account?"
+        android:text="already have an account?"
         android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:fontFamily="@font/nunito_sans"
-        android:text="Sign Up Now!"
+        android:text="Login!"
         android:textColor="?colorPrimary"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -51,8 +51,8 @@
         android:layout_marginTop="92dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="?colorPrimary"
-        android:hint="Email Address"
-        android:inputType="textEmailAddress"
+        android:hint="Full Name"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -65,26 +65,54 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="?colorPrimary"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/editTextFname"
+        app:layout_constraintStart_toStartOf="@+id/editTextFname"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFname" />
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?colorPrimary"
+        android:hint="Mobile Number"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailsignup" />
+
+    <EditText
+        android:id="@+id/editTextPasswordsignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?colorPrimary"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextFname"
         app:layout_constraintStart_toStartOf="@+id/editTextFname"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFname" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:paddingLeft="38dp"
-        android:paddingRight="38dp"
         android:paddingTop="5dp"
+        android:paddingRight="38dp"
         android:paddingBottom="5dp"
-        android:text="LOGIN"
+        android:layout_marginTop="16dp"
+        android:text="Sign Up"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmailsignup"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/editTextEmailsignup"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmailsignup" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordsignup" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,23 +122,12 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_sans"
-            android:text="Forget password?"
-            android:textColor="#000"
-            android:layout_marginRight="4dp"
-            android:textSize="18sp" />
 
-        <TextView
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_sans"
-            android:text="Reset"
-            android:textColor="?colorPrimary"
-            android:textSize="18sp" />
+            android:text="By signup I agree with terms and condition"
+            />
 
     </LinearLayout>
 
