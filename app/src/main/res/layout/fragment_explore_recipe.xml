@@ -70,7 +70,8 @@
                 android:hint="What are you looking for?"
                 android:imeOptions="actionGo"
                 android:inputType="text"
-                android:minHeight="40dp"
+                android:minHeight="45dp"
+                android:singleLine="true"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 app:layout_constraintEnd_toEndOf="@id/guideline_right"
@@ -95,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="18dp"
                     android:fontFamily="@font/nunito_sans"
                     android:text="Love cooking?"
                     android:textColor="#000"
@@ -109,7 +110,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_toLeftOf="@+id/chef_icon"
                     android:fontFamily="@font/nunito_sans_light"
-                    android:text="Serve your recipe and make \neverybody looking for." />
+                    android:text="Serve your recipe and make everybody looking for." />
 
                 <ImageView
                     android:id="@+id/chef_icon"
