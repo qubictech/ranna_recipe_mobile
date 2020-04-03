@@ -4,8 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import androidx.core.os.postDelayed
-import rannaghor.recipe.tarmsbd.com.MainActivity
+import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.R
 
 class SplashActivity : AppCompatActivity() {
