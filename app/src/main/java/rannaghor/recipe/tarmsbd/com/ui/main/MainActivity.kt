@@ -8,15 +8,25 @@ import rannaghor.recipe.tarmsbd.com.R
 
 class MainActivity : AppCompatActivity() {
 
-    private var bottomNavigationView: BottomNavigationView =
-        findViewById(R.id.bottom_navigation_view)
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().add(
+                R.id.fragment_container,
+                ExploreRecipeFragment()
+            ).commit()
+        }
+
+        setupBottomNavigationView()
     }
 
-    init {
+    private fun setupBottomNavigationView() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view)
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_explore -> supportFragmentManager.beginTransaction().replace(
