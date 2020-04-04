@@ -19,21 +19,10 @@ import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
-class ExploreRecipeFragment : Fragment() {
+class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private lateinit var recyclerViewExploreByCategory: RecyclerView
     private lateinit var recyclerViewPopularRecipe: RecyclerView
     private lateinit var rannaghorViewModel: RannaghorViewModel
-
-    lateinit var rannaghorRetrofitService: RannaghorRetrofitService
-    lateinit var compositeDisposable: CompositeDisposable
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore_recipe, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,10 +30,6 @@ class ExploreRecipeFragment : Fragment() {
         recyclerViewExploreByCategory = view.findViewById(R.id.recipe_categories)
         recyclerViewPopularRecipe = view.findViewById(R.id.popular_recipe)
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
-
-        val retrofit = RetrofitClient.instance
-        rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
-        compositeDisposable = CompositeDisposable()
 
         getAllCategories()
         getAllRecipes()
@@ -84,8 +69,4 @@ class ExploreRecipeFragment : Fragment() {
             }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
-    }
 }
