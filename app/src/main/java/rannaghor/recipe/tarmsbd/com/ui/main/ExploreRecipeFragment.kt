@@ -91,7 +91,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe), OnClic
         val intent = Intent(context, RecipeListActivity::class.java)
         intent.putExtra(
             CATEGORY_NAME,
-            categories[position].name.toLowerCase()
+            categories[position].name
         )
         startActivity(intent)
     }

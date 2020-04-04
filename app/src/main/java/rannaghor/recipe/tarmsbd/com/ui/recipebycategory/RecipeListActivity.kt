@@ -1,5 +1,6 @@
 package rannaghor.recipe.tarmsbd.com.ui.recipebycategory
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
 class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
 
+    @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,7 +31,7 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
         val recyclerView: RecyclerView = findViewById(R.id.recipe_item_list)
 
         rannaghorViewModel.createNetworkRequestForRecipeListByCategory(
-            intent.getStringExtra(ExploreRecipeFragment.CATEGORY_NAME)
+            intent.getStringExtra(ExploreRecipeFragment.CATEGORY_NAME).toLowerCase()
         )
 
         rannaghorViewModel.getRecipeListByCategory().observe(this, Observer {
