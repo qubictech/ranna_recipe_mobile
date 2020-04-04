@@ -1,5 +1,7 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,12 +14,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
+import rannaghor.recipe.tarmsbd.com.model.Category
+import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
+import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
-class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
+class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe), OnClickEventListener {
     private lateinit var recyclerViewExploreByCategory: RecyclerView
     private lateinit var recyclerViewPopularRecipe: RecyclerView
     private lateinit var rannaghorViewModel: RannaghorViewModel
+
+    private var categories = mutableListOf<Category>()
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -45,6 +52,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private fun getAllCategories() {
         rannaghorViewModel.getCategories().observe(viewLifecycleOwner, Observer {
             val categoryAdapter = context?.let { it1 -> RecipeCategoryAdapter(it1, it) }
+            categories.addAll(it)
+            categoryAdapter?.setOnClickEventListener(this)
             recyclerViewExploreByCategory.apply {
                 hasFixedSize()
                 layoutManager = GridLayoutManager(context, 4)
@@ -67,6 +76,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     }
 
     companion object {
+        const val CATEGORY_NAME = "rannaghor.recipe.tarmsbd.com.ui.main.catrgory_name"
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ExploreRecipeFragment().apply {
@@ -74,6 +84,16 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
                 }
             }
+    }
+
+    @SuppressLint("DefaultLocale")
+    override fun onItemClickListener(position: Int) {
+        val intent = Intent(context, RecipeListActivity::class.java)
+        intent.putExtra(
+            CATEGORY_NAME,
+            categories[position].name.toLowerCase()
+        )
+        startActivity(intent)
     }
 
 }

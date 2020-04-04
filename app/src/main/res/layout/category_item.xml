@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:transitionName="animated_layout">
 
     <ImageView
         android:id="@+id/recipe_category_icon"
@@ -11,8 +12,8 @@
         android:layout_height="60dp"
         android:background="@drawable/main_banner_background"
         android:paddingStart="10dp"
-        android:src="@drawable/ic_burger"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:src="@drawable/ic_burger" />
 
     <TextView
         android:id="@+id/recipe_category_name"

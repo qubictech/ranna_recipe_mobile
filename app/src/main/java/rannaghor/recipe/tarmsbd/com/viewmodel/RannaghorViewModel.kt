@@ -10,7 +10,6 @@ import rannaghor.recipe.tarmsbd.com.model.Recipe
 import rannaghor.recipe.tarmsbd.com.repository.RannaghorRepository
 import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
-import java.util.*
 import java.util.logging.Logger
 
 const val TAG = "RannaghorViewModel"
@@ -22,6 +21,8 @@ class RannaghorViewModel : ViewModel() {
 
     fun getCategories(): LiveData<List<Category>> = RannaghorRepository.getAllCategories()
     fun getAllRecipes(): LiveData<List<Recipe>> = RannaghorRepository.getAllRecipes()
+    fun getRecipeListByCategory(): LiveData<List<Recipe>> =
+        RannaghorRepository.getRecipeByCategory()
 
     fun getRecipeCategoryAndRecipeListFromNetwork() {
         compositeDisposable.add(
@@ -42,6 +43,20 @@ class RannaghorViewModel : ViewModel() {
                 .subscribe(
                     { category ->
                         RannaghorRepository.setAllCategory(category)
+                    }, this::handleError
+                )
+        )
+    }
+
+    fun createNetworkRequestForRecipeListByCategory(category: String) {
+        compositeDisposable.add(
+            rannaghorRetrofitService.recipeByCategory(category)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        Logger.getLogger("Response size: ").warning("${it.size}")
+                        RannaghorRepository.setRecipesByCategory(it)
                     }, this::handleError
                 )
         )
