@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import rannaghor.recipe.tarmsbd.com.R
-import rannaghor.recipe.tarmsbd.com.ui.authentications.LoginActivity
+import rannaghor.recipe.tarmsbd.com.ui.authentication.LoginActivity
 
 class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 

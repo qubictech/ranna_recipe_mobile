@@ -19,7 +19,7 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
         private var name = itemView.findViewById<TextView>(R.id.recipe_category_name)
 
         fun bind(context: Context, category: Category) {
-            name.text = category.name
+            name.text = category.name.trim()
             Glide.with(context).load(category.images).into(icon)
         }
     }
