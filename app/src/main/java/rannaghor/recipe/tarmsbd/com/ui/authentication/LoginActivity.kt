@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.ui.authentications
+package rannaghor.recipe.tarmsbd.com.ui.authentication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

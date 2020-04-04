@@ -23,7 +23,7 @@
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.authentications.LoginActivity"
+            android:name=".ui.authentication.LoginActivity"
             android:windowSoftInputMode="adjustNothing" />
 
         <meta-data
