@@ -1,22 +1,17 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.disposables.CompositeDisposable
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
-import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
-import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
 class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
@@ -24,8 +19,13 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private lateinit var recyclerViewPopularRecipe: RecyclerView
     private lateinit var rannaghorViewModel: RannaghorViewModel
 
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout)
+        swipeRefreshLayout.isRefreshing = true
 
         recyclerViewExploreByCategory = view.findViewById(R.id.recipe_categories)
         recyclerViewPopularRecipe = view.findViewById(R.id.popular_recipe)
@@ -33,6 +33,11 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
         getAllCategories()
         getAllRecipes()
+
+        swipeRefreshLayout.setOnRefreshListener {
+            getAllCategories()
+            getAllRecipes()
+        }
 
         rannaghorViewModel.getRecipeCategoryAndRecipeListFromNetwork()
     }
@@ -50,6 +55,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
     private fun getAllRecipes() {
         rannaghorViewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
+
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
