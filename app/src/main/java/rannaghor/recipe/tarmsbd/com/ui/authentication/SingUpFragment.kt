@@ -13,6 +13,8 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         view.findViewById<TextView>(R.id.texViewLogin)
             .setOnClickListener {
                 val loginActivity: LoginActivity = activity as LoginActivity

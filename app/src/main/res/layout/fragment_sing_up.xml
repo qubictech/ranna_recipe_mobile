@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editTextFname"
+        android:id="@+id/editTextFnameSignup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
@@ -64,10 +64,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFname" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextFnameSignup" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/editTextNumbersignup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -88,10 +88,10 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumbersignup" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonSignUp"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
