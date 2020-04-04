@@ -9,14 +9,17 @@
         android:id="@+id/recipe_category_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/main_banner_background" />
+        android:background="@drawable/main_banner_background"
+        android:paddingStart="10dp"
+        android:src="@drawable/ic_burger"
+        android:paddingBottom="10dp" />
 
     <TextView
-        android:fontFamily="@font/nunito_sans_light"
         android:id="@+id/recipe_category_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:fontFamily="@font/nunito_sans_light"
         android:hint="Breakfast"
         android:text="" />
 
