@@ -7,15 +7,14 @@ import android.os.Handler
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.ui.authentications.LoginActivity
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
             startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
-        }, 7000)
+        }, 4000)
     }
 }
