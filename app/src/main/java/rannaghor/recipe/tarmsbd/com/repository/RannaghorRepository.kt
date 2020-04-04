@@ -8,10 +8,13 @@ import rannaghor.recipe.tarmsbd.com.model.Recipe
 object RannaghorRepository {
     private val category = MutableLiveData<List<Category>>()
     private val recipe = MutableLiveData<List<Recipe>>()
+    private val recipeByCategory = MutableLiveData<List<Recipe>>()
 
     fun getAllCategories(): LiveData<List<Category>> = category
 
     fun getAllRecipes(): LiveData<List<Recipe>> = recipe
+
+    fun getRecipeByCategory(): LiveData<List<Recipe>> = recipeByCategory
 
     fun setAllRecipes(recipes: List<Recipe>) {
         recipe.value = recipes
@@ -19,5 +22,9 @@ object RannaghorRepository {
 
     fun setAllCategory(categories: List<Category>) {
         category.value = categories
+    }
+
+    fun setRecipesByCategory(recipes: List<Recipe>) {
+        recipeByCategory.value = recipes
     }
 }

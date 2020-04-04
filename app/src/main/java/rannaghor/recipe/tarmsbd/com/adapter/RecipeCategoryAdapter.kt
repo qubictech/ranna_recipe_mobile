@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Category
+import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
 
 class RecipeCategoryAdapter(private var context: Context, private var category: List<Category>) :
     RecyclerView.Adapter<RecipeCategoryAdapter.CategoryHolder>() {
+    private lateinit var onClickEventListener: OnClickEventListener
 
     class CategoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var icon = itemView.findViewById<ImageView>(R.id.recipe_category_icon)
@@ -20,8 +22,17 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
 
         fun bind(context: Context, category: Category) {
             name.text = category.name.trim()
-            Glide.with(context).load(category.images).into(icon)
+            if (adapterPosition % 2 == 0)
+                Glide.with(context).load(R.drawable.ic_burger_2).into(icon)
+            else Glide.with(context).load(R.drawable.ic_burger).into(icon)
+
+            icon.clipToOutline = true
         }
+
+    }
+
+    public fun setOnClickEventListener(onClickEventListener: OnClickEventListener) {
+        this.onClickEventListener = onClickEventListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
@@ -35,5 +46,11 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
 
     override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
         holder.bind(category = category[position], context = context)
+
+        holder.itemView.setOnClickListener {
+            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                onClickEventListener?.onItemClickListener(holder.adapterPosition)
+            }
+        }
     }
 }
