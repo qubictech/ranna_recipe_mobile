@@ -14,7 +14,7 @@
         android:fontFamily="@font/nunito_sans_semibold"
         android:text="Login"
         android:textColor="#000"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,10 +22,8 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_sans"
+        android:fontFamily="@font/nunito_sans_light"
         android:text="Don't have an account?"
-        android:textColor="#000"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -34,10 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
-        android:fontFamily="@font/nunito_sans"
-        android:text="Sign Up Now!"
+        android:fontFamily="@font/nunito_sans_light"
+        android:text="Sign Up!"
         android:textColor="?colorPrimary"
-        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
@@ -45,7 +42,7 @@
         android:id="@+id/editTextFnameSignup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="75dp"
         android:backgroundTint="?colorPrimary"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
@@ -67,10 +64,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSignUp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:paddingLeft="38dp"
         android:paddingTop="5dp"
         android:paddingRight="38dp"
@@ -82,7 +79,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="24dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +94,7 @@
             android:fontFamily="@font/nunito_sans"
             android:text="Forget password?"
             android:textColor="#000"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,7 +102,7 @@
             android:fontFamily="@font/nunito_sans"
             android:text="Reset"
             android:textColor="?colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
