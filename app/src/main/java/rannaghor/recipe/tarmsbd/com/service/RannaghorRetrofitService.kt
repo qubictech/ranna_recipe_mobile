@@ -27,7 +27,7 @@ interface RannaghorRetrofitService {
         @Query("name") name: String,
         @Query("email") email: String,
         @Query("password") password: String,
-        @Query("mobile") number: String
+        @Query("phone") number: String
     ): Single<List<User>>
 
     @POST("/api/users.php")

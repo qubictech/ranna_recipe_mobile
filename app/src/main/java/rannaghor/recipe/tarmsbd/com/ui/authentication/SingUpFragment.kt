@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import io.reactivex.Scheduler
@@ -79,8 +80,14 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             {
-                                Logger.getLogger("SignUP Response $it").warning("$it")
-                                startActivity(Intent(context, MainActivity::class.java))
+                                val size=it.size
+                                if (size>0) {
+                                    startActivity(Intent(context, MainActivity::class.java))
+                                }else{
+                                    Toast.makeText(context,"Registration Failed",
+                                        Toast.LENGTH_LONG).show()
+
+                                }
                             }, this::handleError
                         )
                 )
