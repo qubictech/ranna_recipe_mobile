@@ -2,6 +2,7 @@ package rannaghor.recipe.tarmsbd.com.service
 
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import rannaghor.recipe.tarmsbd.com.model.Category
 import rannaghor.recipe.tarmsbd.com.model.Recipe
 import rannaghor.recipe.tarmsbd.com.model.User
@@ -28,7 +29,7 @@ interface RannaghorRetrofitService {
         @Query("email") email:String,
         @Query("password") password:String,
         @Query("mobile") number:String
-    ): Flowable<List<User>>
+    ): Single<List<User>>
 
     @POST("/api/users.php")
     fun userLogin(

@@ -24,6 +24,12 @@ class RannaghorViewModel : ViewModel() {
     fun getRecipeListByCategory(): LiveData<List<Recipe>> =
         RannaghorRepository.getRecipeByCategory()
 
+    fun getSavedRecipeList(): LiveData<List<Recipe>> = RannaghorRepository.getSavedRecipeList()
+
+    fun addNewRecipeIntoSavedList(recipe: Recipe) {
+        RannaghorRepository.saveRecipeIntoLocalStorage(recipe)
+    }
+
     fun getRecipeCategoryAndRecipeListFromNetwork() {
         compositeDisposable.add(
             rannaghorRetrofitService.recipe

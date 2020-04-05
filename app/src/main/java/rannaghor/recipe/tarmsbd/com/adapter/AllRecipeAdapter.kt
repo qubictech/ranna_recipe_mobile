@@ -23,7 +23,7 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         private val comments = itemView.findViewById<TextView>(R.id.recipe_comments_count)
         private val icon = itemView.findViewById<ImageView>(R.id.recipe_image)
         fun bind(context: Context, recipe: Recipe) {
-            name.text = recipe.name.trim()
+            name.text = recipe.name?.trim()
 //            likes.text = "${recipe.likes} +"
 //            comments.text = "${recipe.comments} +"
             when {
@@ -53,7 +53,7 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         holder.bind(context, recipe = recipes[position])
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                onClickEventListener?.onItemClickListener(holder.adapterPosition)
+                onClickEventListener.onItemClickListener(holder.adapterPosition)
             }
         }
     }

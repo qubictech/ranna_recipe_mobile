@@ -61,4 +61,7 @@ dependencies {
 
     //live data lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+
+    //Slider animation
+    implementation 'com.github.smarteist:autoimageslider:1.3.5'
 }
