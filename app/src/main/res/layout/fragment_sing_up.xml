@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editTextFnameSignup"
+        android:id="@+id/editTextEmailLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
@@ -64,7 +64,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFnameSignup" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailLogin" />
 
     <EditText
         android:id="@+id/editTextNumbersignup"

@@ -30,5 +30,12 @@ interface RannaghorRetrofitService {
         @Query("mobile") number:String
     ): Flowable<List<User>>
 
+    @POST("/api/users.php")
+    fun userLogin(
+        @Query("email") email:String,
+        @Query("password") password:String,
+        @Query("from") login:String
+    ): Flowable<List<User>>
+
 
 }

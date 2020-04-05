@@ -1,18 +1,14 @@
 package rannaghor.recipe.tarmsbd.com.ui.authentication
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.Schedulers.io
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
@@ -38,7 +34,7 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mName=view.findViewById(R.id.editTextFnameSignup)
+        mName=view.findViewById(R.id.editTextEmailLogin)
         mEmail=view.findViewById(R.id.editTextEmailsignup)
         mNumber=view.findViewById(R.id.editTextNumbersignup)
         mPass=view.findViewById(R.id.editTextPasswordsignup)
