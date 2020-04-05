@@ -1,19 +1,24 @@
 package rannaghor.recipe.tarmsbd.com.ui
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderView
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.ImageSliderAdapter
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-
+import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
 class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
+
+    private lateinit var rannaghorViewModel: RannaghorViewModel
 
     private var mBottomSheetBehavior: BottomSheetBehavior<*>? = null
 
@@ -67,12 +72,35 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
             setSliderAdapter(adapter)
             setIndicatorAnimation(IndicatorAnimations.WORM)
         }
+        rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.recipe_detail_appbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item.itemId == android.R.id.home)
-            finish()
+        when (item.itemId) {
+            android.R.id.home -> finish()
+
+            R.id.menu_like_recipe -> {
+                println("Like")
+            }
+
+            R.id.menu_save_recipe -> {
+                val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
+                recipe?.let {
+                    rannaghorViewModel.addNewRecipeIntoSavedList(it)
+                    Toast.makeText(applicationContext, "Recipe Saved!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            R.id.menu_share_recipe -> {
+                println("Share")
+            }
+        }
 
         return super.onOptionsItemSelected(item)
     }

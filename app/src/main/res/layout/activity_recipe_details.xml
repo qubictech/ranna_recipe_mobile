@@ -35,18 +35,17 @@
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="3dp"
                 app:sliderIndicatorRadius="2dp"
-                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorSelectedColor="#CCCCCC"
                 app:sliderIndicatorUnselectedColor="#FFF"
                 app:sliderScrollTimeInSec="1"
                 app:sliderStartAutoCycle="true" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:menu="@menu/recipe_detail_appbar_menu"
                 app:layout_collapseMode="pin"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-                app:title="" />
+                android:layout_height="?actionBarSize" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

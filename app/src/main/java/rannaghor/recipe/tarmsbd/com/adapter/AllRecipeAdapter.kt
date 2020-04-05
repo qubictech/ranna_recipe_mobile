@@ -53,7 +53,7 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         holder.bind(context, recipe = recipes[position])
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                onClickEventListener?.onItemClickListener(holder.adapterPosition)
+                onClickEventListener.onItemClickListener(holder.adapterPosition)
             }
         }
     }
