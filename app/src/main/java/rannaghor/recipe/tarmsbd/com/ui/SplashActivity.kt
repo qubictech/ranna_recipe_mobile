@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.ui.authentication.LoginActivity
-import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 
 class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 
@@ -14,7 +13,7 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
         super.onCreate(savedInstanceState)
 
         Handler().postDelayed({
-            startActivity(Intent(applicationContext, MainActivity::class.java))
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
         }, 4000)
     }
