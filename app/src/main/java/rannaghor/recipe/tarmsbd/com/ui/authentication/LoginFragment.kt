@@ -14,7 +14,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.buttonLogin)
+        view.findViewById<Button>(R.id.buttonSignUp)
             .setOnClickListener {
                 startActivity(Intent(view.context, MainActivity::class.java))
             }
