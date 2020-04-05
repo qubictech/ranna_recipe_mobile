@@ -16,25 +16,37 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:titleEnabled="false"
             app:contentScrim="?colorPrimary"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Food Details">
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-            <ImageView
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_round"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="200dp"
+                android:transitionName="recipe_icon"
+                app:layout_collapseMode="parallax"
+                app:sliderAnimationDuration="300"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderAutoCycleEnabled="true"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderScrollTimeInSec="1"
+                app:sliderStartAutoCycle="true" />
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -47,17 +59,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/nunito_sans_semibold"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_sans"
                 android:text="Food Name"
                 android:textColor="#000"
-                android:textSize="30sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,23 +77,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/nunito_sans_light"
                 android:text="by, Admin"
+                android:textStyle="italic"
                 app:layout_constraintLeft_toLeftOf="@id/textView"
                 app:layout_constraintTop_toBottomOf="@id/textView" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
                 android:drawableLeft="@drawable/ic_video_outline"
+                android:drawablePadding="16dp"
                 android:fontFamily="@font/nunito_sans"
-                android:text="WATCH VIDEO/REQUEST VIDEO"
-                android:textColor="?colorPrimary"
-                android:textSize="18sp"
+                android:text="WATCH VIDEO/ REQUEST VIDEO"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/texviewPostedby"
                 app:layout_constraintTop_toBottomOf="@+id/texviewPostedby" />
-
 
             <View
                 android:id="@+id/view"
@@ -98,10 +113,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/nunito_sans"
-                android:text="Materials | উপকরণ"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="Materials | উপকরণ\t"
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="italic"
                 app:layout_constraintLeft_toLeftOf="@id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -130,10 +146,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:fontFamily="@font/nunito_sans"
-                android:text="Recipe | প্রণালী"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="Recipe | প্রনালী\t"
+                android:textColor="#000"
+                android:textSize="16sp"
+                android:textStyle="italic"
                 app:layout_constraintLeft_toLeftOf="@id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -147,105 +164,108 @@
                 android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="@id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/bottom_sheet"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:behavior_peekHeight="55dp"
-        android:background="#fff"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_height="wrap_content"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="175dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
-
+        <androidx.cardview.widget.CardView
+            android:outlineAmbientShadowColor="@color/icon_color"
+            android:outlineSpotShadowColor="@color/icon_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="#fcfcfc"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp">
 
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text="Comments"
+                    android:textColor="#000"
+                    app:layout_constraintStart_toStartOf="@id/guideline_left"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <RelativeLayout
-                    android:id="@+id/relative_lt"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:background="#FFF2F2"
-                    app:layout_constraintTop_toTopOf="parent">
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_keyboard_arrow_up_black_24dp"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                    app:layout_constraintStart_toStartOf="@id/guideline_left"
+                    app:layout_constraintTop_toTopOf="@id/comment" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/nunito_sans_semibold"
-                        android:text="Comments"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/nunito_sans_semibold"
-                        android:text="100+"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
+                <TextView
+                    android:id="@+id/recipe_comments_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nunito_sans"
+                    android:text="100+"
+                    android:textColor="#000"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/comments_recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/relative_lt"
-                    android:layout_marginTop="16dp"
-                    android:padding="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/relative_lt"
-                    tools:listitem="@layout/comment_item" />
-
-                <RelativeLayout
-                    android:id="@+id/relative_lt1"
-                    android:layout_width="match_parent"
+                    android:id="@+id/comment_list"
+                    android:minHeight="88dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="5dp"
-                    app:layout_constraintTop_toBottomOf="@+id/comments_recyclerView"
-                    tools:layout_editor_absoluteX="16dp">
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                    app:layout_constraintStart_toStartOf="@id/guideline_left"
+                    app:layout_constraintTop_toBottomOf="@id/comment" />
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="20dp" />
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/search_view_background"
-                        android:hint="Comment"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp" />
-
-                    <TextView
-                        android:id="@+id/comments_send"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:drawableLeft="@drawable/ic_send_black_24dp"
-                        android:paddingTop="6dp" />
-
-
-                </RelativeLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="20dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/search_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/search_view_background"
+        android:drawableStart="@drawable/ic_message_square_outline"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/nunito_sans"
+        android:hint="Type a comment"
+        android:imeOptions="actionGo"
+        android:inputType="text"
+        android:minHeight="45dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:singleLine="true" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
