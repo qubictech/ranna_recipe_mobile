@@ -1,15 +1,25 @@
 package rannaghor.recipe.tarmsbd.com.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Recipe(
-    var id: String,
-    var name: String,
-    var materials: String,
-    var recipe: String,
-    var images: String,
-    var videos: String,
-    var type: String
-) : Parcelable
+    @SerializedName("id")
+    var id: String?,
+    @SerializedName("name")
+    var name: String?,
+    @SerializedName("materials")
+    var materials: String?,
+    @SerializedName("recipe")
+    var recipe: String?,
+    @SerializedName("images")
+    var image: String?,
+    @SerializedName("videos")
+    var videos: String?,
+    @SerializedName("type")
+    var type: String?
+) : Parcelable {
+    constructor() : this("", "", "", "", "", "", "")
+}

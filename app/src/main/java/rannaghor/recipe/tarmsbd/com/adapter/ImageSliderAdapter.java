@@ -1,11 +1,11 @@
 package rannaghor.recipe.tarmsbd.com.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
@@ -16,6 +16,8 @@ import java.util.List;
 import rannaghor.recipe.tarmsbd.com.R;
 
 public class ImageSliderAdapter extends SliderViewAdapter<ImageSliderAdapter.SliderAdapterVH> {
+    private static final String TAG = "ImageSliderAdapter";
+
     private Context context;
     private List<Integer> mSliderItems = new ArrayList<>();
 
@@ -40,7 +42,8 @@ public class ImageSliderAdapter extends SliderViewAdapter<ImageSliderAdapter.Sli
 
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_slider_layout_item, parent, false);
+        View inflate = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.image_slider_layout_item, parent, false);
         return new SliderAdapterVH(inflate);
     }
 
@@ -55,7 +58,8 @@ public class ImageSliderAdapter extends SliderViewAdapter<ImageSliderAdapter.Sli
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: This is item in position " + position);
+//                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -84,7 +84,6 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                     intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
                     startActivity(intent)
                 }
-
             })
 
             recyclerViewPopularRecipe.apply {

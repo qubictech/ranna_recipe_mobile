@@ -2,12 +2,10 @@ package rannaghor.recipe.tarmsbd.com.ui
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderView
 import rannaghor.recipe.tarmsbd.com.R
@@ -19,6 +17,10 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
 
     private var mBottomSheetBehavior: BottomSheetBehavior<*>? = null
 
+    private lateinit var recipeName: TextView
+    private lateinit var recipeDetail: TextView
+    private lateinit var requiredMaterials: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,11 +28,21 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        recipeName = findViewById(R.id.recipe_name)
+        recipeDetail = findViewById(R.id.textviewRecipe)
+        requiredMaterials = findViewById(R.id.textviewMaterials)
+
         try {
             val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
+
+            supportActionBar?.title = recipe?.name?.trim()
+            recipeName.text = recipe?.name?.trim()
+            recipeDetail.text = recipe?.recipe?.trim()
+            requiredMaterials.text = recipe?.materials?.trim()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
+
 //        val bottomSheet: View = findViewById(R.id.bottom_sheet)
 //
 //        mBottomSheetBehavior = BottomSheetBehavior.from<View>(bottomSheet)

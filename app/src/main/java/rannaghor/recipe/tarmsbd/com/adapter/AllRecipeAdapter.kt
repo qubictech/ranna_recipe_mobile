@@ -23,7 +23,7 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         private val comments = itemView.findViewById<TextView>(R.id.recipe_comments_count)
         private val icon = itemView.findViewById<ImageView>(R.id.recipe_image)
         fun bind(context: Context, recipe: Recipe) {
-            name.text = recipe.name.trim()
+            name.text = recipe.name?.trim()
 //            likes.text = "${recipe.likes} +"
 //            comments.text = "${recipe.comments} +"
             when {

@@ -16,9 +16,9 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleEnabled="false"
             app:contentScrim="?colorPrimary"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:titleEnabled="false">
 
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
@@ -42,9 +42,11 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:layout_collapseMode="pin"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                app:title="" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -53,6 +55,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="200dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +64,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/recipe_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -80,8 +84,8 @@
                 android:fontFamily="@font/nunito_sans_light"
                 android:text="by, Admin"
                 android:textStyle="italic"
-                app:layout_constraintLeft_toLeftOf="@id/textView"
-                app:layout_constraintTop_toBottomOf="@id/textView" />
+                app:layout_constraintLeft_toLeftOf="@id/recipe_name"
+                app:layout_constraintTop_toBottomOf="@id/recipe_name" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/textView3"
@@ -123,13 +127,15 @@
 
             <TextView
                 android:id="@+id/textviewMaterials"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_sans_light"
                 android:text="All text format from api"
                 android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="@id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <View
@@ -143,26 +149,30 @@
 
             <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="Recipe | প্রনালী\t"
                 android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="italic"
-                app:layout_constraintLeft_toLeftOf="@id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/textView4"
                 app:layout_constraintTop_toBottomOf="@+id/view2" />
 
             <TextView
                 android:id="@+id/textviewRecipe"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/nunito_sans_light"
                 android:text="All text format from api"
                 android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="@id/textView5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
@@ -170,24 +180,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:behavior_hideable="false"
+        app:behavior_hideable="true"
         app:behavior_peekHeight="175dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <androidx.cardview.widget.CardView
-            android:outlineAmbientShadowColor="@color/icon_color"
-            android:outlineSpotShadowColor="@color/icon_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="-16dp"
+            android:outlineAmbientShadowColor="@color/icon_color"
+            android:outlineSpotShadowColor="@color/icon_color"
             app:cardCornerRadius="16dp"
             app:cardElevation="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="#fcfcfc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp">
+                android:layout_marginBottom="40dp"
+                android:background="#fcfcfc">
 
                 <TextView
                     android:id="@+id/comment"
@@ -221,10 +231,10 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_list"
-                    android:minHeight="88dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:minHeight="88dp"
                     app:layout_constraintEnd_toEndOf="@id/guideline_right"
                     app:layout_constraintStart_toStartOf="@id/guideline_left"
                     app:layout_constraintTop_toBottomOf="@id/comment" />
