@@ -1,5 +1,6 @@
 package rannaghor.recipe.tarmsbd.com.ui.authentication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import io.reactivex.schedulers.Schedulers.io
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
+import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.viewmodel.TAG
 import java.util.logging.Logger
 
@@ -77,8 +79,8 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             {
-                                Logger.getLogger("SignUP Response $it")
-//                                startActivity(Intent(context, MainActivity::class.java))
+                                Logger.getLogger("SignUP Response $it").warning("$it")
+                                startActivity(Intent(context, MainActivity::class.java))
                             }, this::handleError
                         )
                 )

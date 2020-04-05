@@ -31,38 +31,35 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mEmail=view.findViewById(R.id.editTextEmailLogin)
-        mPass=view.findViewById(R.id.editTextPasswordLogin)
-
+        mEmail = view.findViewById(R.id.editTextEmailLogin)
+        mPass = view.findViewById(R.id.editTextPasswordLogin)
 
         view.findViewById<Button>(R.id.buttonSignUp)
             .setOnClickListener {
-                val email=mEmail.text.toString()
-                val pass=mPass.text.toString()
+                val email = mEmail.text.toString()
+                val pass = mPass.text.toString()
 
-                if (email.isEmpty()){
-                    mEmail.setError("required...")
+                if (email.isEmpty()) {
+                    mEmail.error = ("required...")
                     return@setOnClickListener
-                }else if(pass.isEmpty()){
-                    mPass.setError("required...")
+                } else if (pass.isEmpty()) {
+                    mPass.error = ("required...")
                     return@setOnClickListener
-                }else if(pass.length<6){
-                    mPass.setError("at least 6 character")
+                } else if (pass.length < 6) {
+                    mPass.error = ("at least 6 character")
                     return@setOnClickListener
                 }
 
-
                 compositeDisposable.add(
-                    rannaghorRetrofitService.userLogin(email,pass,"login")
+                    rannaghorRetrofitService.userLogin(email, pass, "login")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             {
-                                startActivity(Intent(view.context, MainActivity::class.java))
-
-                            },this::handleError
+                                Logger.getLogger("Signin Response").warning("$it")
+                                startActivity(Intent(context, MainActivity::class.java))
+                            }, this::handleError
                         )
-
                 )
             }
 
@@ -72,6 +69,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 loginActivity.startFragment(SingUpFragment())
             }
     }
+
     private fun handleError(error: Throwable) {
         Logger.getLogger(TAG).warning("   Error: ${error.localizedMessage}")
     }
