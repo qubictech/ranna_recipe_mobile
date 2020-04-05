@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Recipe
+import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
 
 class AllRecipeAdapter(private val context: Context, private val recipes: List<Recipe>) :
     RecyclerView.Adapter<AllRecipeAdapter.RecipeHolder>() {
+
+    private lateinit var onClickEventListener: OnClickEventListener
+
     class RecipeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.comment_username)
         private val likes = itemView.findViewById<TextView>(R.id.recipe_likes_count)
@@ -38,8 +42,8 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
-        val holder =
-            LayoutInflater.from(parent.context).inflate(R.layout.recipe_item, parent, false)
+        val holder = LayoutInflater.from(parent.context)
+            .inflate(R.layout.recipe_item, parent, false)
         return RecipeHolder(holder)
     }
 
@@ -47,5 +51,14 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         holder.bind(context, recipe = recipes[position])
+        holder.itemView.setOnClickListener {
+            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                onClickEventListener?.onItemClickListener(holder.adapterPosition)
+            }
+        }
+    }
+
+    public fun setOnClickEventListener(onClickEventListener: OnClickEventListener) {
+        this.onClickEventListener = onClickEventListener
     }
 }

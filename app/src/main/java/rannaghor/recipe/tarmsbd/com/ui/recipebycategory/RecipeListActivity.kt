@@ -1,6 +1,7 @@
 package rannaghor.recipe.tarmsbd.com.ui.recipebycategory
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
+import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
+import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 import rannaghor.recipe.tarmsbd.com.ui.main.ExploreRecipeFragment
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
@@ -36,6 +39,15 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
 
         rannaghorViewModel.getRecipeListByCategory().observe(this, Observer {
             val recipeAdapter = AllRecipeAdapter(applicationContext, it)
+
+            recipeAdapter.setOnClickEventListener(object : OnClickEventListener {
+                override fun onItemClickListener(position: Int) {
+                    val intent = Intent(applicationContext, RecipeDetails::class.java)
+                    intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
+                    startActivity(intent)
+                }
+            })
+
             recyclerView.apply {
                 hasFixedSize()
                 layoutManager = LinearLayoutManager(context)

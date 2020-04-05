@@ -1,6 +1,5 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -14,17 +13,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
-import rannaghor.recipe.tarmsbd.com.model.Category
 import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
+import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
-class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe), OnClickEventListener {
+class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private lateinit var recyclerViewExploreByCategory: RecyclerView
     private lateinit var recyclerViewPopularRecipe: RecyclerView
     private lateinit var rannaghorViewModel: RannaghorViewModel
-
-    private var categories = mutableListOf<Category>()
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -52,8 +49,19 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe), OnClic
     private fun getAllCategories() {
         rannaghorViewModel.getCategories().observe(viewLifecycleOwner, Observer {
             val categoryAdapter = context?.let { it1 -> RecipeCategoryAdapter(it1, it) }
-            categories.addAll(it)
-            categoryAdapter?.setOnClickEventListener(this)
+
+            categoryAdapter?.setOnClickEventListener(object : OnClickEventListener {
+                override fun onItemClickListener(position: Int) {
+                    val intent = Intent(context, RecipeListActivity::class.java)
+                    intent.putExtra(
+                        CATEGORY_NAME,
+                        it[position].name
+                    )
+                    startActivity(intent)
+                }
+
+            })
+
             recyclerViewExploreByCategory.apply {
                 hasFixedSize()
                 layoutManager = GridLayoutManager(context, 4)
@@ -67,6 +75,15 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe), OnClic
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
+            recipeAdapter?.setOnClickEventListener(object : OnClickEventListener {
+                override fun onItemClickListener(position: Int) {
+                    val intent = Intent(context, RecipeDetails::class.java)
+                    intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
+                    startActivity(intent)
+                }
+
+            })
+
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
                 layoutManager = LinearLayoutManager(context)
@@ -85,15 +102,4 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe), OnClic
                 }
             }
     }
-
-    @SuppressLint("DefaultLocale")
-    override fun onItemClickListener(position: Int) {
-        val intent = Intent(context, RecipeListActivity::class.java)
-        intent.putExtra(
-            CATEGORY_NAME,
-            categories[position].name
-        )
-        startActivity(intent)
-    }
-
 }
