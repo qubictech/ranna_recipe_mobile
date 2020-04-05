@@ -23,8 +23,8 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
         fun bind(context: Context, category: Category) {
             name.text = category.name.trim()
             if (adapterPosition % 2 == 0)
-                Glide.with(context).load(R.drawable.ic_burger_2).into(icon)
-            else Glide.with(context).load(R.drawable.ic_burger).into(icon)
+                Glide.with(context).load(R.drawable.ic_nasta).into(icon)
+            else Glide.with(context).load(R.drawable.ic_juice).into(icon)
 
             icon.clipToOutline = true
         }

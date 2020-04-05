@@ -22,9 +22,16 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
             name.text = recipe.name.trim()
 //            likes.text = "${recipe.likes} +"
 //            comments.text = "${recipe.comments} +"
-            if (adapterPosition % 2 == 0)
-                Glide.with(context).load(R.drawable.ic_burger_2).into(icon)
-            else Glide.with(context).load(R.drawable.ic_burger).into(icon)
+            when {
+                adapterPosition % 4 == 0 -> Glide.with(context).load(R.drawable.ic_burger_2)
+                    .into(icon)
+                adapterPosition % 4 == 1 -> Glide.with(context).load(R.drawable.ic_burger)
+                    .into(icon)
+                adapterPosition % 4 == 3 -> Glide.with(context).load(R.drawable.ic_juice)
+                    .into(icon)
+                adapterPosition % 4 == 2 -> Glide.with(context).load(R.drawable.ic_nasta)
+                    .into(icon)
+            }
 
             icon.clipToOutline = true
         }
