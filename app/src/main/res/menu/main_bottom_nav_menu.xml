@@ -6,6 +6,4 @@
         tools:ignore="HardcodedText" />
     <item android:title="Favorite" android:icon="@drawable/ic_heart_outline" android:id="@+id/menu_favorite"
         tools:ignore="HardcodedText" />
-    <item android:title="Preference" android:icon="@drawable/ic_settings_2_outline" android:id="@+id/menu_preference"
-        tools:ignore="HardcodedText" />
 </menu>

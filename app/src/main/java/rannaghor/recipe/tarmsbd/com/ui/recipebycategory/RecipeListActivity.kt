@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
 import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 import rannaghor.recipe.tarmsbd.com.ui.main.ExploreRecipeFragment
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
+import java.util.logging.Logger
 
 class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
 
@@ -26,7 +28,9 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        supportActionBar?.title = intent.getStringExtra(ExploreRecipeFragment.CATEGORY_NAME)
+        val category = intent.getStringExtra(ExploreRecipeFragment.CATEGORY_NAME)
+
+        supportActionBar?.title = category
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
@@ -34,26 +38,28 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
         val recyclerView: RecyclerView = findViewById(R.id.recipe_item_list)
 
         rannaghorViewModel.createNetworkRequestForRecipeListByCategory(
-            intent.getStringExtra(ExploreRecipeFragment.CATEGORY_NAME).toLowerCase()
+            category.toLowerCase()
         )
 
-        rannaghorViewModel.getRecipeListByCategory().observe(this, Observer {
-            val recipeAdapter = AllRecipeAdapter(applicationContext, it)
+        rannaghorViewModel.getRecipeListByCategory(category.toLowerCase())
+            ?.observe(this, Observer {
+                Logger.getLogger("recipe category : $category")
+                val recipeAdapter = AllRecipeAdapter(applicationContext, it)
 
-            recipeAdapter.setOnClickEventListener(object : OnClickEventListener {
-                override fun onItemClickListener(position: Int) {
-                    val intent = Intent(applicationContext, RecipeDetails::class.java)
-                    intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
-                    startActivity(intent)
+                recipeAdapter.setOnClickEventListener(object : OnClickEventListener {
+                    override fun onItemClickListener(position: Int) {
+                        val intent = Intent(applicationContext, RecipeDetails::class.java)
+                        intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
+                        startActivity(intent)
+                    }
+                })
+
+                recyclerView.apply {
+                    hasFixedSize()
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = recipeAdapter
                 }
             })
-
-            recyclerView.apply {
-                hasFixedSize()
-                layoutManager = LinearLayoutManager(context)
-                adapter = recipeAdapter
-            }
-        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

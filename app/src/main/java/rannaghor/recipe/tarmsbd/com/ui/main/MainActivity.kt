@@ -35,11 +35,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     R.id.fragment_container,
                     FavoriteRecipeFragment()
                 ).commit()
-
-                R.id.menu_preference -> supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    PreferenceFragment()
-                ).commit()
             }
             return@setOnNavigationItemSelectedListener true
         }

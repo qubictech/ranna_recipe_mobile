@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderView
 import rannaghor.recipe.tarmsbd.com.R
@@ -19,8 +18,6 @@ import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
 
     private lateinit var rannaghorViewModel: RannaghorViewModel
-
-    private var mBottomSheetBehavior: BottomSheetBehavior<*>? = null
 
     private lateinit var recipeName: TextView
     private lateinit var recipeDetail: TextView
@@ -47,14 +44,6 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
-
-//        val bottomSheet: View = findViewById(R.id.bottom_sheet)
-//
-//        mBottomSheetBehavior = BottomSheetBehavior.from<View>(bottomSheet)
-//        val comment: RelativeLayout = findViewById(R.id.relative_lt)
-//        comment.setOnClickListener() {
-//            BottomSheetBehavior.from(bottomSheet).state = STATE_EXPANDED
-//        }
 
         val sliderView = findViewById<SliderView>(R.id.imageSlider)
         val adapter = ImageSliderAdapter(applicationContext)
@@ -86,19 +75,11 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
             android.R.id.home -> finish()
 
             R.id.menu_like_recipe -> {
-                println("Like")
-            }
-
-            R.id.menu_save_recipe -> {
                 val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
                 recipe?.let {
                     rannaghorViewModel.addNewRecipeIntoSavedList(it)
                     Toast.makeText(applicationContext, "Recipe Saved!", Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            R.id.menu_share_recipe -> {
-                println("Share")
             }
         }
 

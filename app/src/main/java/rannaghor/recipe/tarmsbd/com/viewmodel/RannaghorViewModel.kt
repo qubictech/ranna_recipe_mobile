@@ -1,6 +1,8 @@
 package rannaghor.recipe.tarmsbd.com.viewmodel
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -19,10 +21,12 @@ class RannaghorViewModel : ViewModel() {
     private val retrofit = RetrofitClient.instance
     private val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
 
+    private val categoryWiseRecipe = MutableLiveData<List<Recipe>>()
+
     fun getCategories(): LiveData<List<Category>> = RannaghorRepository.getAllCategories()
     fun getAllRecipes(): LiveData<List<Recipe>> = RannaghorRepository.getAllRecipes()
-    fun getRecipeListByCategory(): LiveData<List<Recipe>> =
-        RannaghorRepository.getRecipeByCategory()
+    fun getRecipeListByCategory(category: String): MutableLiveData<List<Recipe>> =
+        categoryWiseRecipe
 
     fun getSavedRecipeList(): LiveData<List<Recipe>> = RannaghorRepository.getSavedRecipeList()
 
@@ -54,6 +58,7 @@ class RannaghorViewModel : ViewModel() {
         )
     }
 
+    @SuppressLint("DefaultLocale")
     fun createNetworkRequestForRecipeListByCategory(category: String) {
         compositeDisposable.add(
             rannaghorRetrofitService.recipeByCategory(category)
@@ -62,7 +67,7 @@ class RannaghorViewModel : ViewModel() {
                 .subscribe(
                     {
                         Logger.getLogger("Response size: ").warning("${it.size}")
-                        RannaghorRepository.setRecipesByCategory(it)
+                        categoryWiseRecipe.value = it
                     }, this::handleError
                 )
         )
