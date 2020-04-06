@@ -36,4 +36,10 @@ interface RannaghorRetrofitService {
         @Query("password") password: String,
         @Query("from") login: String
     ): Single<List<User>>
+
+    @POST("/api/recipe.php")
+    fun incrementLikes(
+        @Query("liked") liked: String,
+        @Query("id") id: String
+    ): Flowable<List<Recipe>>
 }

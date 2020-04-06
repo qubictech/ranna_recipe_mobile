@@ -1,5 +1,6 @@
 package rannaghor.recipe.tarmsbd.com.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -20,22 +21,14 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
     class RecipeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.comment_username)
         private val likes = itemView.findViewById<TextView>(R.id.recipe_likes_count)
-        private val comments = itemView.findViewById<TextView>(R.id.recipe_comments_count)
         private val icon = itemView.findViewById<ImageView>(R.id.recipe_image)
+        @SuppressLint("DefaultLocale", "SetTextI18n")
         fun bind(context: Context, recipe: Recipe) {
             name.text = recipe.name?.trim()
-//            likes.text = "${recipe.likes} +"
-//            comments.text = "${recipe.comments} +"
-            when {
-                adapterPosition % 4 == 0 -> Glide.with(context).load(R.drawable.ic_burger_2)
-                    .into(icon)
-                adapterPosition % 4 == 1 -> Glide.with(context).load(R.drawable.ic_burger)
-                    .into(icon)
-                adapterPosition % 4 == 3 -> Glide.with(context).load(R.drawable.ic_juice)
-                    .into(icon)
-                adapterPosition % 4 == 2 -> Glide.with(context).load(R.drawable.ic_nasta)
-                    .into(icon)
-            }
+            likes.text = "${recipe.likes}"
+            if (recipe.type?.trim() == "panio")
+                Glide.with(context).load(R.drawable.ic_juice).into(icon)
+            else Glide.with(context).load(R.drawable.ic_nasta).into(icon)
 
             icon.clipToOutline = true
         }

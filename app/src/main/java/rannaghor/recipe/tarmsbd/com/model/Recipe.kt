@@ -19,7 +19,9 @@ data class Recipe(
     @SerializedName("videos")
     var videos: String?,
     @SerializedName("type")
-    var type: String?
+    var type: String?,
+    @SerializedName("likes")
+    var likes: Int?
 ) : Parcelable {
-    constructor() : this("", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "", 0)
 }

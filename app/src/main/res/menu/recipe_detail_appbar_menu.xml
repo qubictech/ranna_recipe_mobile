@@ -3,18 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:icon="@drawable/ic_save"
-        android:id="@+id/menu_save_recipe"
-        android:title="Save"
-        app:showAsAction="ifRoom" />
-    <item
         android:icon="@drawable/ic_heart_outline_black"
         android:id="@+id/menu_like_recipe"
         android:title="Like"
-        app:showAsAction="ifRoom" />
-    <item
-        android:icon="@drawable/ic_share_outline"
-        android:id="@+id/menu_share_recipe"
-        android:title="Share"
         app:showAsAction="ifRoom" />
 </menu>
