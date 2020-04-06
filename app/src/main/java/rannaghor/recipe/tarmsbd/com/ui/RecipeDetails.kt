@@ -77,6 +77,7 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
             R.id.menu_like_recipe -> {
                 val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
                 recipe?.let {
+                    rannaghorViewModel.incrementLikes(it.id.toString())
                     rannaghorViewModel.addNewRecipeIntoSavedList(it)
                     Toast.makeText(applicationContext, "Recipe Saved!", Toast.LENGTH_SHORT).show()
                 }

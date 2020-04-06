@@ -1,6 +1,7 @@
 package rannaghor.recipe.tarmsbd.com.viewmodel
 
 import android.annotation.SuppressLint
+import android.util.JsonReader
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,21 @@ class RannaghorViewModel : ViewModel() {
 
     fun addNewRecipeIntoSavedList(recipe: Recipe) {
         RannaghorRepository.saveRecipeIntoLocalStorage(recipe)
+    }
+
+    fun incrementLikes(id: String) {
+        compositeDisposable.add(
+            rannaghorRetrofitService.incrementLikes("true", id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { recipes ->
+                        if (recipes.isNotEmpty())
+                            RannaghorRepository.setAllRecipes(recipes)
+                        else Logger.getLogger(TAG).warning(" Error: Empty List Returns on likes click")
+                    }, this::handleError
+                )
+        )
     }
 
     fun getRecipeCategoryAndRecipeListFromNetwork() {
