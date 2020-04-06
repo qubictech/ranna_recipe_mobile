@@ -1,11 +1,13 @@
 package rannaghor.recipe.tarmsbd.com.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.ui.authentication.LoginActivity
+import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
+import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 
 class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 
@@ -13,7 +15,11 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
         super.onCreate(savedInstanceState)
 
         Handler().postDelayed({
-            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            if (SharedPrefUtil(applicationContext!!).isUserLoggedIn()) {
+                startActivity(Intent(applicationContext, MainActivity::class.java))
+            } else {
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
+            }
             finish()
         }, 4000)
     }

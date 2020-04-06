@@ -1,5 +1,6 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import rannaghor.recipe.tarmsbd.com.R
+import rannaghor.recipe.tarmsbd.com.ui.authentication.LoginActivity
+import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 
 class PreferenceFragment : Fragment(R.layout.fragment_preference) {
 
@@ -34,9 +37,9 @@ class PreferenceFragment : Fragment(R.layout.fragment_preference) {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<MaterialButton>(R.id.buttonLogout).setOnClickListener(){
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val  editor =prefs.edit()
-            editor.putString("login","no").apply()
+            SharedPrefUtil(context!!).clearUserCredential()
+            startActivity(Intent(context,LoginActivity::class.java))
+            activity!!.finish()
         }
     }
 }

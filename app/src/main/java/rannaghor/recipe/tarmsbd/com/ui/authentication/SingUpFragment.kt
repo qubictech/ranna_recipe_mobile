@@ -2,23 +2,20 @@ package rannaghor.recipe.tarmsbd.com.ui.authentication
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.Schedulers.io
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
+import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import rannaghor.recipe.tarmsbd.com.viewmodel.TAG
 import java.util.logging.Logger
 
@@ -39,6 +36,7 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sharedPrefUtil = context?.let { SharedPrefUtil(it) }
 
         mName = view.findViewById(R.id.editTextFnameSignup)
         mEmail = view.findViewById(R.id.editTextEmailsignup)
@@ -80,12 +78,15 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                             {
-                                val size=it.size
-                                if (size>0) {
+                                val size = it.size
+                                if (size > 0) {
+                                    sharedPrefUtil!!.storeUserCredentialIntoSharedPref(it[0])
                                     startActivity(Intent(context, MainActivity::class.java))
-                                }else{
-                                    Toast.makeText(context,"Registration Failed",
-                                        Toast.LENGTH_LONG).show()
+                                } else {
+                                    Toast.makeText(
+                                        context, "Registration Failed",
+                                        Toast.LENGTH_LONG
+                                    ).show()
 
                                 }
                             }, this::handleError
