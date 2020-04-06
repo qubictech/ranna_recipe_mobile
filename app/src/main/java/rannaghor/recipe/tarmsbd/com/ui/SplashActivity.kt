@@ -15,11 +15,7 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
         super.onCreate(savedInstanceState)
 
         Handler().postDelayed({
-            if (SharedPrefUtil(applicationContext!!).isUserLoggedIn()) {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-            } else {
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
-            }
+            startActivity(Intent(applicationContext, MainActivity::class.java))
             finish()
         }, 4000)
     }

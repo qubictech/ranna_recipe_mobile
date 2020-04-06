@@ -6,7 +6,7 @@ import rannaghor.recipe.tarmsbd.com.model.Recipe
 import rannaghor.recipe.tarmsbd.com.model.User
 import java.util.logging.Logger
 
-class SharedPrefUtil(private val context: Context) {
+class SharedPrefUtil(context: Context) {
     companion object {
         const val USER_CREDENTIAL = "rannaghor.recipe.tarmsbd.com.user_credential"
         const val USER_NAME = "rannaghor.recipe.tarmsbd.com.user_name"
@@ -30,7 +30,7 @@ class SharedPrefUtil(private val context: Context) {
         editor.putString(SAVED_RECIPE_LIST, recipes?.toString())
     }
 
-    fun getSavedRecipeList(): MutableSet<String>? = sharedPreferences.getStringSet(
+    private fun getSavedRecipeList(): MutableSet<String>? = sharedPreferences.getStringSet(
         SAVED_RECIPE_LIST,
         mutableSetOf()
     )
@@ -46,8 +46,14 @@ class SharedPrefUtil(private val context: Context) {
         editor.commit()
     }
 
-    fun getUserLoggedInUserData(): String? {
-        return sharedPreferences.getString(USER_NAME, "Smith") + "!"
+    fun getUserLoggedInUserData(): User? {
+
+        return User(
+            "${sharedPreferences.getString(USER_NAME, "Dear")} !",
+            "${sharedPreferences.getString(USER_EMAIL, "")}", "",
+            "",
+            ""
+        )
     }
 
     fun clearUserCredential() {

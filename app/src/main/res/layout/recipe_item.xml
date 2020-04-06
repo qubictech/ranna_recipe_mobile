@@ -26,34 +26,19 @@
         android:textColor="#000"
         android:textSize="16sp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/recipe_likes_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/comment_username"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="4dp"
-        android:layout_toEndOf="@id/recipe_image">
+        android:layout_toEndOf="@id/recipe_image"
+        android:drawableStart="@drawable/ic_heart_outline"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/nunito_sans_light"
+        android:gravity="center_vertical"
+        android:text="100+" />
 
-        <TextView
-            android:id="@+id/recipe_likes_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/ic_heart_outline"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/nunito_sans_light"
-            android:gravity="center_vertical"
-            android:text="100+" />
-
-        <TextView
-            android:id="@+id/recipe_comments_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableStart="@drawable/ic_comment_outline"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/nunito_sans_light"
-            android:gravity="center_vertical"
-            android:text="100+" />
-    </LinearLayout>
 </RelativeLayout>

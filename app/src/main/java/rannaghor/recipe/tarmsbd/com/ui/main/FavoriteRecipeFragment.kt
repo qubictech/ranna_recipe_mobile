@@ -17,6 +17,7 @@ import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
 import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
+import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 import java.util.*
@@ -47,7 +48,12 @@ class FavoriteRecipeFragment : Fragment(R.layout.fragment_favorite_recipe) {
         }
 
         view.findViewById<TextView>(R.id.username).apply {
-            text = SharedPrefUtil(context).getUserLoggedInUserData()
+            text = SharedPrefUtil(context).getUserLoggedInUserData()?.name
+        }
+
+        view.findViewById<ImageView>(R.id.avatar).setOnClickListener {
+            val profile = ProfileFragment()
+            profile.show(parentFragmentManager, "")
         }
 
         val greetings = view.findViewById<TextView>(R.id.greetings_name)

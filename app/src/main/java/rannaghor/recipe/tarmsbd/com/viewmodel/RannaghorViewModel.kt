@@ -25,8 +25,8 @@ class RannaghorViewModel : ViewModel() {
 
     fun getCategories(): LiveData<List<Category>> = RannaghorRepository.getAllCategories()
     fun getAllRecipes(): LiveData<List<Recipe>> = RannaghorRepository.getAllRecipes()
-    fun getRecipeListByCategory(category: String): MutableLiveData<List<Recipe>> =
-        categoryWiseRecipe
+    fun getRecipeListByCategory(category: String):
+            MutableLiveData<List<Recipe>> = categoryWiseRecipe
 
     fun getSavedRecipeList(): LiveData<List<Recipe>> = RannaghorRepository.getSavedRecipeList()
 

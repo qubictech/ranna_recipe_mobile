@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,6 +18,7 @@ import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
 import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
 import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
+import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
@@ -41,7 +43,12 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
 
         view.findViewById<TextView>(R.id.username).apply {
-            text = SharedPrefUtil(context).getUserLoggedInUserData()
+            text = SharedPrefUtil(context).getUserLoggedInUserData()?.name
+        }
+
+        view.findViewById<ImageView>(R.id.avatar).setOnClickListener {
+            val profile = ProfileFragment()
+            profile.show(parentFragmentManager, "")
         }
 
         val greetings = view.findViewById<TextView>(R.id.greetings_name)
