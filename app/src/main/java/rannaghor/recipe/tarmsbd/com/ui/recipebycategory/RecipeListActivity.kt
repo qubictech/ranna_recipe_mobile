@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -41,25 +40,16 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
             category.toLowerCase()
         )
 
-        rannaghorViewModel.getRecipeListByCategory(category.toLowerCase())
-            ?.observe(this, Observer {
-                Logger.getLogger("recipe category : $category")
-                val recipeAdapter = AllRecipeAdapter(applicationContext, it)
+        rannaghorViewModel.getRecipeListByCategory(category.toLowerCase()).observe(this, Observer {
+            Logger.getLogger("recipe category : $category")
+            val recipeAdapter = AllRecipeAdapter(this, it)
 
-                recipeAdapter.setOnClickEventListener(object : OnClickEventListener {
-                    override fun onItemClickListener(position: Int) {
-                        val intent = Intent(applicationContext, RecipeDetails::class.java)
-                        intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
-                        startActivity(intent)
-                    }
-                })
-
-                recyclerView.apply {
-                    hasFixedSize()
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = recipeAdapter
-                }
-            })
+            recyclerView.apply {
+                hasFixedSize()
+                layoutManager = LinearLayoutManager(context)
+                adapter = recipeAdapter
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

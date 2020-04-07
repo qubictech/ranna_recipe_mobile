@@ -1,16 +1,22 @@
 package rannaghor.recipe.tarmsbd.com.adapter
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Category
 import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
+import rannaghor.recipe.tarmsbd.com.ui.main.ExploreRecipeFragment
+import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 
 class RecipeCategoryAdapter(private var context: Context, private var category: List<Category>) :
     RecyclerView.Adapter<RecipeCategoryAdapter.CategoryHolder>() {
@@ -27,6 +33,21 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
             else Glide.with(context).load(R.drawable.ic_nasta).into(icon)
 
             icon.clipToOutline = true
+        }
+
+        fun onClickListener(context: Context, category: Category) {
+            val intent = Intent(context, RecipeListActivity::class.java)
+            intent.putExtra(
+                ExploreRecipeFragment.CATEGORY_NAME,
+                category.name
+            )
+
+            val icon: View = itemView.findViewById<ImageView>(R.id.root_layout)
+            val pairImage = Pair.create(icon, "animated_layout")
+            val options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(context as Activity, pairImage)
+
+            context.startActivity(intent, options.toBundle())
         }
 
     }
@@ -49,7 +70,7 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
 
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                onClickEventListener?.onItemClickListener(holder.adapterPosition)
+                holder.onClickListener(context, category = category[position])
             }
         }
     }

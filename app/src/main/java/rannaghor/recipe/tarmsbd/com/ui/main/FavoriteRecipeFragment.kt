@@ -1,10 +1,10 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
-import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
-import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
@@ -31,12 +29,16 @@ class FavoriteRecipeFragment : Fragment(R.layout.fragment_favorite_recipe) {
     private lateinit var rannaghorViewModel: RannaghorViewModel
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var editTextSearchView: EditText
 
     @SuppressLint("FragmentLiveDataObserve", "SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.favorite_recipe)
+        editTextSearchView = view.findViewById(R.id.search_recipe)
+        editTextSearchView.clearFocus()
+
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout)
         swipeRefreshLayout.isRefreshing = false
         swipeRefreshLayout.setOnRefreshListener {
@@ -87,14 +89,6 @@ class FavoriteRecipeFragment : Fragment(R.layout.fragment_favorite_recipe) {
                     visibility = View.GONE
                 }
             }
-
-            recipeListAdapter?.setOnClickEventListener(object : OnClickEventListener {
-                override fun onItemClickListener(position: Int) {
-                    val intent = Intent(context, RecipeDetails::class.java)
-                    intent.putExtra(RecipeDetails.RECIPE_DETAIL, recipes[position])
-                    startActivity(intent)
-                }
-            })
 
             recyclerView.apply {
                 hasFixedSize()

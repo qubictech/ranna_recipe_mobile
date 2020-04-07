@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,7 +18,6 @@ import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
 import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
-import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
@@ -30,6 +30,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private lateinit var rannaghorViewModel: RannaghorViewModel
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var editTextSearchView: EditText
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +41,9 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
         recyclerViewExploreByCategory = view.findViewById(R.id.recipe_categories)
         recyclerViewPopularRecipe = view.findViewById(R.id.popular_recipe)
+        editTextSearchView = view.findViewById(R.id.search_recipe)
+        editTextSearchView.clearFocus()
+
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
 
         view.findViewById<TextView>(R.id.username).apply {
@@ -83,18 +87,6 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
         rannaghorViewModel.getCategories().observe(viewLifecycleOwner, Observer {
             val categoryAdapter = context?.let { it1 -> RecipeCategoryAdapter(it1, it) }
 
-            categoryAdapter?.setOnClickEventListener(object : OnClickEventListener {
-                override fun onItemClickListener(position: Int) {
-                    val intent = Intent(context, RecipeListActivity::class.java)
-                    intent.putExtra(
-                        CATEGORY_NAME,
-                        it[position].name
-                    )
-                    startActivity(intent)
-                }
-
-            })
-
             recyclerViewExploreByCategory.apply {
                 hasFixedSize()
                 layoutManager = GridLayoutManager(context, 4)
@@ -108,13 +100,6 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
-            recipeAdapter?.setOnClickEventListener(object : OnClickEventListener {
-                override fun onItemClickListener(position: Int) {
-                    val intent = Intent(context, RecipeDetails::class.java)
-                    intent.putExtra(RecipeDetails.RECIPE_DETAIL, it[position])
-                    startActivity(intent)
-                }
-            })
 
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
