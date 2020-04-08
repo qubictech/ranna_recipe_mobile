@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class User(
     var name: String?,
     @PrimaryKey
-    var email: String?,
+    var email: String,
     var password: String?,
     @SerializedName("phone")
     var number: String?,

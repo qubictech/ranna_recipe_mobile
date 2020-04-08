@@ -1,7 +1,6 @@
 package rannaghor.recipe.tarmsbd.com.ui.recipebycategory
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
-import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
-import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
 import rannaghor.recipe.tarmsbd.com.ui.main.ExploreRecipeFragment
 import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 import java.util.logging.Logger
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
 
     @SuppressLint("DefaultLocale")
@@ -36,11 +34,7 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
 
         val recyclerView: RecyclerView = findViewById(R.id.recipe_item_list)
 
-        rannaghorViewModel.createNetworkRequestForRecipeListByCategory(
-            category.toLowerCase()
-        )
-
-        rannaghorViewModel.getRecipeListByCategory(category.toLowerCase()).observe(this, Observer {
+        rannaghorViewModel.getRecipesByCategory(category = category).observe(this, Observer {
             Logger.getLogger("recipe category : $category")
             val recipeAdapter = AllRecipeAdapter(this, it)
 

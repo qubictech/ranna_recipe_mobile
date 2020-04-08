@@ -16,7 +16,6 @@ import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
-import rannaghor.recipe.tarmsbd.com.viewmodel.TAG
 import java.util.logging.Logger
 
 /**
@@ -98,6 +97,6 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
     }
 
     private fun handleError(error: Throwable) {
-        Logger.getLogger(TAG).warning("   Error: ${error.localizedMessage}")
+        Logger.getLogger("SingUpFragment").warning("   Error: ${error.localizedMessage}")
     }
 }

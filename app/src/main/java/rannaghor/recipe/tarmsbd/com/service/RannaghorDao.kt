@@ -6,13 +6,8 @@ import rannaghor.recipe.tarmsbd.com.model.Recipe
 
 @Dao
 interface RannaghorDao {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addNewFavoriteRecipe(recipe: Recipe)
-
-    @Delete
-    suspend fun removeFavoriteRecipe(recipe: Recipe)
-
-    @Insert
     suspend fun addRecipes(recipe: Recipe)
 
     @Query("SELECT * FROM Recipe")
@@ -21,11 +16,14 @@ interface RannaghorDao {
     @Query("SELECT * FROM Recipe WHERE type=:category")
     fun getRecipesByCategories(category: String): LiveData<List<Recipe>>
 
-    @Query("SELECT type FROM Recipe")
+    @Query("SELECT DISTINCT type FROM Recipe")
     fun getAllCategories(): LiveData<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addFavoriteRecipe(recipe: Recipe)
+
+    @Delete
+    suspend fun removeFavoriteRecipe(recipe: Recipe)
 
     @Query("SELECT * FROM Recipe WHERE likes>0")
     fun getFavoriteRecipeList(): LiveData<List<Recipe>>

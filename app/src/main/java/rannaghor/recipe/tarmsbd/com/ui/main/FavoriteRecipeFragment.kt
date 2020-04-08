@@ -77,7 +77,7 @@ class FavoriteRecipeFragment : Fragment(R.layout.fragment_favorite_recipe) {
 
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
 
-        rannaghorViewModel.getSavedRecipeList().observe(this, Observer { recipes ->
+        rannaghorViewModel.getFavoriteRecipes().observe(this, Observer { recipes ->
             val recipeListAdapter = context?.let { AllRecipeAdapter(it, recipes) }
 
             if (recipes.isEmpty()) {

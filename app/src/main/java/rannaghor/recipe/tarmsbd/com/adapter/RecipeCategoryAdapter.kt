@@ -13,12 +13,11 @@ import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import rannaghor.recipe.tarmsbd.com.R
-import rannaghor.recipe.tarmsbd.com.model.Category
 import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
 import rannaghor.recipe.tarmsbd.com.ui.main.ExploreRecipeFragment
 import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 
-class RecipeCategoryAdapter(private var context: Context, private var category: List<Category>) :
+class RecipeCategoryAdapter(private var context: Context, private var category: List<String>) :
     RecyclerView.Adapter<RecipeCategoryAdapter.CategoryHolder>() {
     private lateinit var onClickEventListener: OnClickEventListener
 
@@ -26,8 +25,8 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
         private var icon = itemView.findViewById<ImageView>(R.id.recipe_category_icon)
         private var name = itemView.findViewById<TextView>(R.id.recipe_category_name)
 
-        fun bind(context: Context, category: Category) {
-            name.text = category.name.trim()
+        fun bind(context: Context, category: String) {
+            name.text = category.trim()
             if (adapterPosition % 2 == 0)
                 Glide.with(context).load(R.drawable.ic_juice).into(icon)
             else Glide.with(context).load(R.drawable.ic_nasta).into(icon)
@@ -35,11 +34,11 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
             icon.clipToOutline = true
         }
 
-        fun onClickListener(context: Context, category: Category) {
+        fun onClickListener(context: Context, category: String) {
             val intent = Intent(context, RecipeListActivity::class.java)
             intent.putExtra(
                 ExploreRecipeFragment.CATEGORY_NAME,
-                category.name
+                category
             )
 
             val icon: View = itemView.findViewById<ImageView>(R.id.root_layout)

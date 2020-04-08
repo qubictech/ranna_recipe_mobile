@@ -16,10 +16,9 @@ import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
-import rannaghor.recipe.tarmsbd.com.viewmodel.TAG
 import java.util.logging.Logger
 
-
+const val TAG = "LoginFragment"
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var mEmail: EditText

@@ -1,6 +1,7 @@
 package rannaghor.recipe.tarmsbd.com.model
 
 import android.os.Parcelable
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -10,8 +11,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Recipe(
     @PrimaryKey
+    @NonNull
     @SerializedName("id")
-    var id: String?,
+    var id: String = "0",
     @SerializedName("name")
     var name: String?,
     @SerializedName("materials")

@@ -72,13 +72,12 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            android.R.id.home -> finish()
+            android.R.id.home -> super.onBackPressed()
 
             R.id.menu_like_recipe -> {
                 val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
                 recipe?.let {
-                    rannaghorViewModel.incrementLikes(it.id.toString())
-                    rannaghorViewModel.addNewRecipeIntoSavedList(it)
+                    rannaghorViewModel.insertFavoriteRecipe(it)
                     Toast.makeText(applicationContext, "Recipe Saved!", Toast.LENGTH_SHORT).show()
                 }
             }

@@ -80,7 +80,6 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
             getAllRecipes()
         }
 
-        rannaghorViewModel.getRecipeCategoryAndRecipeListFromNetwork()
     }
 
     private fun getAllCategories() {
@@ -96,7 +95,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     }
 
     private fun getAllRecipes() {
-        rannaghorViewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {
+        val viewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
+        viewModel.getRecipes().observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
