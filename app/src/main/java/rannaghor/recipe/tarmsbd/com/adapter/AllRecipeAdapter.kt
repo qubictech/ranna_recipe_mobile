@@ -1,22 +1,24 @@
 package rannaghor.recipe.tarmsbd.com.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
+import rannaghor.recipe.tarmsbd.com.ui.recipedetails.RecipeDetails
 
 class AllRecipeAdapter(private val context: Context, private val recipes: List<Recipe>) :
     RecyclerView.Adapter<AllRecipeAdapter.RecipeHolder>() {
-
-    private lateinit var onClickEventListener: OnClickEventListener
 
     class RecipeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.comment_username)
@@ -26,11 +28,22 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         fun bind(context: Context, recipe: Recipe) {
             name.text = recipe.name?.trim()
             likes.text = "${recipe.likes}"
-            if (recipe.type?.trim() == "panio")
-                Glide.with(context).load(R.drawable.ic_juice).into(icon)
-            else Glide.with(context).load(R.drawable.ic_nasta).into(icon)
+
+            Glide.with(context).load(R.mipmap.ic_launcher).into(icon)
 
             icon.clipToOutline = true
+        }
+
+        fun onClickListener(context: Context, recipe: Recipe) {
+            val intent = Intent(context, RecipeDetails::class.java)
+            intent.putExtra(RecipeDetails.RECIPE_DETAIL, recipe)
+
+            val icon: View = itemView.findViewById<ImageView>(R.id.recipe_image)
+            val pairImage = Pair.create(icon, "recipe_icon")
+            val options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(context as Activity, pairImage)
+
+            context.startActivity(intent, options.toBundle())
         }
     }
 
@@ -46,12 +59,12 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         holder.bind(context, recipe = recipes[position])
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                onClickEventListener.onItemClickListener(holder.adapterPosition)
+                try {
+                    holder.onClickListener(context, recipes[position])
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
-    }
-
-    public fun setOnClickEventListener(onClickEventListener: OnClickEventListener) {
-        this.onClickEventListener = onClickEventListener
     }
 }

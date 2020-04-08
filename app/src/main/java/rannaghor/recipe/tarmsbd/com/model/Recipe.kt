@@ -1,13 +1,19 @@
 package rannaghor.recipe.tarmsbd.com.model
 
 import android.os.Parcelable
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
+@Entity
 @Parcelize
 data class Recipe(
+    @PrimaryKey
+    @NonNull
     @SerializedName("id")
-    var id: String?,
+    var id: String = "0",
     @SerializedName("name")
     var name: String?,
     @SerializedName("materials")
@@ -21,7 +27,8 @@ data class Recipe(
     @SerializedName("type")
     var type: String?,
     @SerializedName("likes")
-    var likes: Int?
+    var likes: Int?,
+    var liked: Int = 0 /*o represents false 1 represents true*/
 ) : Parcelable {
-    constructor() : this("", "", "", "", "", "", "", 0)
+    constructor() : this("", "", "", "", "", "", "", 0, 0)
 }

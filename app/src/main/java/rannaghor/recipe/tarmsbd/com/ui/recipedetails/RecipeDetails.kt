@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.ui
+package rannaghor.recipe.tarmsbd.com.ui.recipedetails
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,8 +12,8 @@ import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderView
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.ImageSliderAdapter
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.RannaghorViewModel
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
 class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
 
@@ -49,6 +49,7 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
         val adapter = ImageSliderAdapter(applicationContext)
 
         val images = mutableListOf(
+            R.mipmap.ic_launcher,
             R.drawable.ic_juice,
             R.drawable.ic_nasta,
             R.drawable.ic_burger_2,
@@ -72,14 +73,28 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            android.R.id.home -> finish()
+            android.R.id.home -> super.onBackPressed()
 
             R.id.menu_like_recipe -> {
                 val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
                 recipe?.let {
-                    rannaghorViewModel.incrementLikes(it.id.toString())
-                    rannaghorViewModel.addNewRecipeIntoSavedList(it)
-                    Toast.makeText(applicationContext, "Recipe Saved!", Toast.LENGTH_SHORT).show()
+                    if (it.liked == 0) {
+                        it.liked = 1
+                        Toast.makeText(
+                            applicationContext,
+                            "Recipe Saved to Saved List!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        it.liked = 0
+                        Toast.makeText(
+                            applicationContext,
+                            "Recipe Removed From Saved List!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    rannaghorViewModel.updateRecipe(it)
                 }
             }
         }

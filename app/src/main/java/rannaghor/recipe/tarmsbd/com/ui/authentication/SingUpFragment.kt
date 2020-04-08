@@ -12,11 +12,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import rannaghor.recipe.tarmsbd.com.R
-import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
-import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
+import rannaghor.recipe.tarmsbd.com.database.network.RannaghorRetrofitService
+import rannaghor.recipe.tarmsbd.com.database.network.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
-import rannaghor.recipe.tarmsbd.com.viewmodel.TAG
 import java.util.logging.Logger
 
 /**
@@ -31,7 +30,7 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
 
 
     private val compositeDisposable = CompositeDisposable()
-    private val retrofit = RetrofitClient.instance
+    private val retrofit = RetrofitClient.INSTANCE
     private val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,6 +97,6 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
     }
 
     private fun handleError(error: Throwable) {
-        Logger.getLogger(TAG).warning("   Error: ${error.localizedMessage}")
+        Logger.getLogger("SingUpFragment").warning("   Error: ${error.localizedMessage}")
     }
 }
