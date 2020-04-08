@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.ui
+package rannaghor.recipe.tarmsbd.com.ui.recipedetails
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,8 +12,8 @@ import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderView
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.ImageSliderAdapter
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.RannaghorViewModel
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 
 class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
 

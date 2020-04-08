@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.RannaghorViewModel
 import rannaghor.recipe.tarmsbd.com.ui.main.ExploreRecipeFragment
-import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 import java.util.logging.Logger
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -47,8 +47,7 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home)
-            finish()
+        if (item.itemId == android.R.id.home) super.onBackPressed()
 
         return super.onOptionsItemSelected(item)
     }

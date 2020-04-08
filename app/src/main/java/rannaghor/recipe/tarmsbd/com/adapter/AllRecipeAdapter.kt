@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.ui.RecipeDetails
+import rannaghor.recipe.tarmsbd.com.ui.recipedetails.RecipeDetails
 
 class AllRecipeAdapter(private val context: Context, private val recipes: List<Recipe>) :
     RecyclerView.Adapter<AllRecipeAdapter.RecipeHolder>() {

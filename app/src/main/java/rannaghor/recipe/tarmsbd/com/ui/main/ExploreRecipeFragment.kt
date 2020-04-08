@@ -1,7 +1,6 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -17,11 +16,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
-import rannaghor.recipe.tarmsbd.com.service.OnClickEventListener
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.RannaghorViewModel
 import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
-import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
-import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
 import java.util.*
 
 class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
@@ -95,8 +92,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     }
 
     private fun getAllRecipes() {
-        val viewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
-        viewModel.getRecipes().observe(viewLifecycleOwner, Observer {
+        rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
@@ -111,12 +107,5 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
     companion object {
         const val CATEGORY_NAME = "rannaghor.recipe.tarmsbd.com.ui.main.catrgory_name"
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ExploreRecipeFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
     }
 }

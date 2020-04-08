@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.ui
+package rannaghor.recipe.tarmsbd.com.ui.splash
 
 import android.content.Intent
 import android.os.Bundle

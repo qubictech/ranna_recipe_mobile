@@ -1,13 +1,14 @@
-package rannaghor.recipe.tarmsbd.com.viewmodel
+package rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.repository.RannaghorRepo
-import rannaghor.recipe.tarmsbd.com.service.RannaghorDatabase
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.repository.RannaghorRepo
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.sqlite.RannaghorDatabase
 
 class RannaghorViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: RannaghorRepo
@@ -17,9 +18,9 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
         repository = RannaghorRepo(rannaghorDao)
     }
 
-    fun getRecipes() = repository.allRecipes
+    fun getRecipes(): LiveData<List<Recipe>> = repository.allRecipes
 
-    fun getCategories() = repository.allCategories
+    fun getCategories(): LiveData<List<String>> = repository.allCategories
 
     fun getFavoriteRecipes() = repository.getFavoriteRecipes()
 

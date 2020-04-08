@@ -26,7 +26,7 @@ class SharedPrefUtil(context: Context) {
 
     fun saveNewRecipe(recipe: Recipe) {
         val recipes = getSavedRecipeList()
-        recipe.id?.let { recipes?.add(it) }
+        recipe.id.let { recipes?.add(it) }
         editor.putString(SAVED_RECIPE_LIST, recipes?.toString())
     }
 
@@ -49,7 +49,7 @@ class SharedPrefUtil(context: Context) {
     fun getUserLoggedInUserData(): User? {
 
         return User(
-            "${sharedPreferences.getString(USER_NAME, "Dear")} !",
+            "${sharedPreferences.getString(USER_NAME, "Dear")}!",
             "${sharedPreferences.getString(USER_EMAIL, "")}", "",
             "",
             ""

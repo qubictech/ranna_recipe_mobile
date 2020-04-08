@@ -12,8 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.recipebycategory.RecipeListActivity"/>
-        <activity android:name=".ui.RecipeDetails" />
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name=".ui.recipedetails.RecipeDetails" />
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

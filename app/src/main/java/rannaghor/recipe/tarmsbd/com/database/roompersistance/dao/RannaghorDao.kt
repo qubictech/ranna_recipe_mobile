@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.service
+package rannaghor.recipe.tarmsbd.com.database.roompersistance.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

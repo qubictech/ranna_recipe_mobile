@@ -1,8 +1,8 @@
-package rannaghor.recipe.tarmsbd.com.repository
+package rannaghor.recipe.tarmsbd.com.database.roompersistance.repository
 
 import androidx.lifecycle.LiveData
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.dao.RannaghorDao
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.service.RannaghorDao
 
 class RannaghorRepo(private val rannaghorDao: RannaghorDao) {
     val allRecipes = rannaghorDao.getAllRecipes()

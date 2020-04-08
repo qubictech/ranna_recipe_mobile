@@ -1,4 +1,4 @@
-package rannaghor.recipe.tarmsbd.com.service
+package rannaghor.recipe.tarmsbd.com.database.network
 
 import io.reactivex.Flowable
 import io.reactivex.Observable

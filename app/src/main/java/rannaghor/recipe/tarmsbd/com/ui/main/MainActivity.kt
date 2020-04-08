@@ -1,26 +1,20 @@
 package rannaghor.recipe.tarmsbd.com.ui.main
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import rannaghor.recipe.tarmsbd.com.R
-import rannaghor.recipe.tarmsbd.com.service.RannaghorRetrofitService
-import rannaghor.recipe.tarmsbd.com.service.RetrofitClient
-import rannaghor.recipe.tarmsbd.com.viewmodel.RannaghorViewModel
+import rannaghor.recipe.tarmsbd.com.database.network.RannaghorRetrofitService
+import rannaghor.recipe.tarmsbd.com.database.network.RetrofitClient
+import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.RannaghorViewModel
 import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private val compositeDisposable = CompositeDisposable()
-    private val retrofit = RetrofitClient.instance
-    private val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
-
-    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +29,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setupBottomNavigationView()
         val rannaghorRoomViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
 
+        val retrofit = RetrofitClient.INSTANCE
+        val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
+
         compositeDisposable.add(
             rannaghorRetrofitService.recipe
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { recipes ->
-                        rannaghorRoomViewModel.insertRecipes(recipes)
+                        try {
+                            rannaghorRoomViewModel.insertRecipes(recipes)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }, this::handleError
                 )
         )
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun setupBottomNavigationView() {
-        bottomNavigationView = findViewById(R.id.bottom_navigation_view)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
