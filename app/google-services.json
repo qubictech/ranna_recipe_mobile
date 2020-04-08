@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "961102642811",
+    "firebase_url": "https://rannaghor-9a993.firebaseio.com",
+    "project_id": "rannaghor-9a993",
+    "storage_bucket": "rannaghor-9a993.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961102642811:android:6409d74f8b0cf50040ecde",
+        "android_client_info": {
+          "package_name": "rannaghor.recipe.tarmsbd.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961102642811-h94kcgs21i25en30o1cdtl6jupqb3ql6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKh06kJSNmh7YZOdkLdGCVdkVMfbsGPdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961102642811-h94kcgs21i25en30o1cdtl6jupqb3ql6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
