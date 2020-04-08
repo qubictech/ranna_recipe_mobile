@@ -14,6 +14,10 @@ class RannaghorRepo(private val rannaghorDao: RannaghorDao) {
         }
     }
 
+    suspend fun updateRecipe(recipe: Recipe){
+        rannaghorDao.updateRecipe(recipe)
+    }
+
     suspend fun addFavoriteRecipe(recipe: Recipe) {
         rannaghorDao.addFavoriteRecipe(recipe)
     }

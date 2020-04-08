@@ -10,6 +10,9 @@ interface RannaghorDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addRecipes(recipe: Recipe)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateRecipe(recipe: Recipe)
+
     @Query("SELECT * FROM Recipe")
     fun getAllRecipes(): LiveData<List<Recipe>>
 
@@ -25,6 +28,6 @@ interface RannaghorDao {
     @Delete
     suspend fun removeFavoriteRecipe(recipe: Recipe)
 
-    @Query("SELECT * FROM Recipe WHERE likes>0")
+    @Query("SELECT * FROM Recipe WHERE liked = 1")
     fun getFavoriteRecipeList(): LiveData<List<Recipe>>
 }

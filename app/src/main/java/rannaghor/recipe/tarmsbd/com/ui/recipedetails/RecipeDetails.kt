@@ -77,8 +77,23 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
             R.id.menu_like_recipe -> {
                 val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
                 recipe?.let {
-                    rannaghorViewModel.insertFavoriteRecipe(it)
-                    Toast.makeText(applicationContext, "Recipe Saved!", Toast.LENGTH_SHORT).show()
+                    if (it.liked == 0) {
+                        it.liked = 1
+                        Toast.makeText(
+                            applicationContext,
+                            "Recipe Saved to Saved List!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        it.liked = 0
+                        Toast.makeText(
+                            applicationContext,
+                            "Recipe Removed From Saved List!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    rannaghorViewModel.updateRecipe(it)
                 }
             }
         }

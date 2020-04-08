@@ -18,7 +18,6 @@ import rannaghor.recipe.tarmsbd.com.ui.recipebycategory.RecipeListActivity
 
 class RecipeCategoryAdapter(private var context: Context, private var category: List<String>) :
     RecyclerView.Adapter<RecipeCategoryAdapter.CategoryHolder>() {
-    private lateinit var onClickEventListener: OnClickEventListener
 
     class CategoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var icon = itemView.findViewById<ImageView>(R.id.recipe_category_icon)
@@ -50,10 +49,6 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
 
     }
 
-    public fun setOnClickEventListener(onClickEventListener: OnClickEventListener) {
-        this.onClickEventListener = onClickEventListener
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
         val holder = LayoutInflater.from(parent.context)
             .inflate(R.layout.category_item, parent, false)
@@ -68,7 +63,11 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
 
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                holder.onClickListener(context, category = category[position])
+                try {
+                    holder.onClickListener(context, category = category[position])
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

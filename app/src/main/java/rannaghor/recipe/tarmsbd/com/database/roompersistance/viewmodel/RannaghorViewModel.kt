@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import rannaghor.recipe.tarmsbd.com.model.Recipe
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.repository.RannaghorRepo
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.sqlite.RannaghorDatabase
+import rannaghor.recipe.tarmsbd.com.model.Recipe
 
 class RannaghorViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: RannaghorRepo
@@ -28,6 +28,10 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun insertRecipes(recipes: List<Recipe>) = viewModelScope.launch(Dispatchers.IO) {
         repository.addRecipes(recipes)
+    }
+
+    fun updateRecipe(recipe: Recipe) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateRecipe(recipe)
     }
 
     fun insertFavoriteRecipe(recipe: Recipe) = viewModelScope.launch(Dispatchers.IO) {

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.dao.RannaghorDao
 import rannaghor.recipe.tarmsbd.com.model.Recipe
 
-@Database(entities = [Recipe::class], version = 1, exportSchema = false)
+@Database(entities = [Recipe::class], version = 3, exportSchema = false)
 abstract class RannaghorDatabase : RoomDatabase() {
     abstract fun rannaghorDao(): RannaghorDao
 
@@ -25,7 +25,8 @@ abstract class RannaghorDatabase : RoomDatabase() {
                     context.applicationContext,
                     RannaghorDatabase::class.java,
                     "rannaghor_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
+
                 INSTANCE = instance
 
                 return instance

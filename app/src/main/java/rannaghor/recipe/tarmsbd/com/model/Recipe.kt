@@ -27,7 +27,8 @@ data class Recipe(
     @SerializedName("type")
     var type: String?,
     @SerializedName("likes")
-    var likes: Int?
+    var likes: Int?,
+    var liked: Int = 0 /*o represents false 1 represents true*/
 ) : Parcelable {
-    constructor() : this("", "", "", "", "", "", "", 0)
+    constructor() : this("", "", "", "", "", "", "", 0, 0)
 }

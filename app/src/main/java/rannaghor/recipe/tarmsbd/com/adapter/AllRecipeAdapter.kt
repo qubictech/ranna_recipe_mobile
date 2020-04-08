@@ -28,9 +28,8 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         fun bind(context: Context, recipe: Recipe) {
             name.text = recipe.name?.trim()
             likes.text = "${recipe.likes}"
-            if (recipe.type?.trim() == "panio")
-                Glide.with(context).load(R.drawable.ic_juice).into(icon)
-            else Glide.with(context).load(R.drawable.ic_nasta).into(icon)
+
+            Glide.with(context).load(R.mipmap.ic_launcher).into(icon)
 
             icon.clipToOutline = true
         }
@@ -60,7 +59,11 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
         holder.bind(context, recipe = recipes[position])
         holder.itemView.setOnClickListener {
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                holder.onClickListener(context, recipes[position])
+                try {
+                    holder.onClickListener(context, recipes[position])
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
