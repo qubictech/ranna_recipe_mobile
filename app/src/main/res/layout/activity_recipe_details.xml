@@ -119,7 +119,7 @@
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="Materials | উপকরণ\t"
                 android:textColor="#000"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="italic"
                 app:layout_constraintLeft_toLeftOf="@id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -155,7 +155,7 @@
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="Recipe | প্রনালী\t"
                 android:textColor="#000"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/textView4"

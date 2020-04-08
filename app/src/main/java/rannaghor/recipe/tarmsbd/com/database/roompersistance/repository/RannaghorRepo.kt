@@ -18,14 +18,6 @@ class RannaghorRepo(private val rannaghorDao: RannaghorDao) {
         rannaghorDao.updateRecipe(recipe)
     }
 
-    suspend fun addFavoriteRecipe(recipe: Recipe) {
-        rannaghorDao.addFavoriteRecipe(recipe)
-    }
-
-    suspend fun removeFavoriteRecipe(recipe: Recipe) {
-        rannaghorDao.removeFavoriteRecipe(recipe)
-    }
-
     fun getFavoriteRecipes():LiveData<List<Recipe>> {
         return rannaghorDao.getFavoriteRecipeList()
     }

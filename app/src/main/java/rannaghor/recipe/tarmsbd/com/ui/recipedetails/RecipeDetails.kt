@@ -49,6 +49,7 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
         val adapter = ImageSliderAdapter(applicationContext)
 
         val images = mutableListOf(
+            R.mipmap.ic_launcher,
             R.drawable.ic_juice,
             R.drawable.ic_nasta,
             R.drawable.ic_burger_2,

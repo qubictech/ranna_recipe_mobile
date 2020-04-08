@@ -13,7 +13,7 @@ interface RannaghorDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateRecipe(recipe: Recipe)
 
-    @Query("SELECT * FROM Recipe")
+    @Query("SELECT * FROM Recipe ORDER BY likes DESC")
     fun getAllRecipes(): LiveData<List<Recipe>>
 
     @Query("SELECT * FROM Recipe WHERE type=:category")
@@ -21,12 +21,6 @@ interface RannaghorDao {
 
     @Query("SELECT DISTINCT type FROM Recipe")
     fun getAllCategories(): LiveData<List<String>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addFavoriteRecipe(recipe: Recipe)
-
-    @Delete
-    suspend fun removeFavoriteRecipe(recipe: Recipe)
 
     @Query("SELECT * FROM Recipe WHERE liked = 1")
     fun getFavoriteRecipeList(): LiveData<List<Recipe>>

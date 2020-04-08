@@ -34,12 +34,4 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
         repository.updateRecipe(recipe)
     }
 
-    fun insertFavoriteRecipe(recipe: Recipe) = viewModelScope.launch(Dispatchers.IO) {
-        repository.addFavoriteRecipe(recipe)
-    }
-
-    fun removeFavoriteRecipe(recipe: Recipe) = viewModelScope.launch(Dispatchers.IO) {
-        repository.removeFavoriteRecipe(recipe)
-    }
-
 }
