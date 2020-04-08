@@ -44,7 +44,7 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
             val options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(context as Activity, pairImage)
 
-            context.startActivity(intent, options.toBundle())
+            context.startActivity(intent)
         }
 
     }

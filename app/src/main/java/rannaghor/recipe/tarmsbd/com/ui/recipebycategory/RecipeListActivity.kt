@@ -47,7 +47,9 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) super.onBackPressed()
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
 
         return super.onOptionsItemSelected(item)
     }
