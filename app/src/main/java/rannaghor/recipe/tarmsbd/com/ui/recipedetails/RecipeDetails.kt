@@ -10,12 +10,22 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.smarteist.autoimageslider.IndicatorAnimations
 import com.smarteist.autoimageslider.SliderView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.ImageSliderAdapter
+import rannaghor.recipe.tarmsbd.com.database.network.RannaghorRetrofitService
+import rannaghor.recipe.tarmsbd.com.database.network.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.RannaghorViewModel
 import rannaghor.recipe.tarmsbd.com.model.Recipe
+import java.util.logging.Logger
 
 class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
+    private val compositeDisposable = CompositeDisposable()
+
+    private val retrofit = RetrofitClient.INSTANCE
+    private val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
 
     private lateinit var rannaghorViewModel: RannaghorViewModel
 
@@ -85,6 +95,18 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
                             "Recipe Saved to Saved List!",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        compositeDisposable.add(
+                            rannaghorRetrofitService.recipe
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                    { recipes ->
+                                        Logger.getLogger("Recipe Detail").warning("LIKED")
+                                        rannaghorViewModel.insertRecipes(recipes)
+                                    }, this::handleError
+                                )
+                        )
                     } else {
                         it.liked = 0
                         Toast.makeText(
@@ -102,8 +124,18 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun handleError(error: Throwable) {
+        Logger.getLogger("Recipe Detail")
+            .warning("   Error: ${error.localizedMessage}")
+    }
+
     companion object {
         const val RECIPE_DETAIL = "rannaghor.recipe.tarmsbd.com.ui.main.recipe_detail"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 
 }
