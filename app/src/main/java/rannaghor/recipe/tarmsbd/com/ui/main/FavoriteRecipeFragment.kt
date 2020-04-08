@@ -3,6 +3,8 @@ package rannaghor.recipe.tarmsbd.com.ui.main
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -77,6 +79,21 @@ class FavoriteRecipeFragment : Fragment(R.layout.fragment_favorite_recipe) {
 
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
 
+        editTextSearchView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                getSearchResult(s.toString(), view)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+        })
+
         rannaghorViewModel.getFavoriteRecipes().observe(this, Observer { recipes ->
             val recipeListAdapter = context?.let { AllRecipeAdapter(it, recipes) }
 
@@ -97,6 +114,28 @@ class FavoriteRecipeFragment : Fragment(R.layout.fragment_favorite_recipe) {
             }
         })
 
+    }
+
+    fun getSearchResult(query: String, view: View) {
+        rannaghorViewModel.searchSavedRecipe(query).observe(this, Observer { recipes ->
+            val recipeListAdapter = context?.let { AllRecipeAdapter(it, recipes) }
+
+            if (recipes.isEmpty()) {
+                view.findViewById<ImageView>(R.id.empty_list_image).apply {
+                    visibility = View.VISIBLE
+                }
+            } else {
+                view.findViewById<ImageView>(R.id.empty_list_image).apply {
+                    visibility = View.GONE
+                }
+            }
+
+            recyclerView.apply {
+                hasFixedSize()
+                layoutManager = LinearLayoutManager(context)
+                adapter = recipeListAdapter
+            }
+        })
     }
 
 }
