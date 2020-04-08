@@ -24,4 +24,10 @@ interface RannaghorDao {
 
     @Query("SELECT * FROM Recipe WHERE liked = 1")
     fun getFavoriteRecipeList(): LiveData<List<Recipe>>
+
+    @Query("SELECT * FROM Recipe WHERE  name LIKE :query")
+    fun searchRecipe(query: String): LiveData<List<Recipe>>
+
+    @Query("SELECT * FROM Recipe WHERE  name LIKE :query AND liked = 1")
+    fun searchSavedRecipe(query: String): LiveData<List<Recipe>>
 }

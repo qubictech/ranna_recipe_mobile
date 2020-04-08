@@ -20,9 +20,13 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getRecipes(): LiveData<List<Recipe>> = repository.allRecipes
 
+    fun searchRecipeByName(query: String) = repository.searchRecipeByName(query)
+
     fun getCategories(): LiveData<List<String>> = repository.allCategories
 
     fun getFavoriteRecipes() = repository.getFavoriteRecipes()
+
+    fun searchSavedRecipe(query: String) = repository.searchSavedRecipeByName(query)
 
     fun getRecipesByCategory(category: String) = repository.getRecipeByCategory(category)
 

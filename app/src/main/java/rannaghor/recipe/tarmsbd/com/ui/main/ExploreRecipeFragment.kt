@@ -2,6 +2,8 @@ package rannaghor.recipe.tarmsbd.com.ui.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -42,6 +44,21 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
         editTextSearchView.clearFocus()
 
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
+
+        editTextSearchView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                getSearchResult(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+        })
 
         view.findViewById<TextView>(R.id.username).apply {
             text = SharedPrefUtil(context).getUserLoggedInUserData()?.name
@@ -93,6 +110,20 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
     private fun getAllRecipes() {
         rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
+
+            val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
+
+            recyclerViewPopularRecipe.apply {
+                hasFixedSize()
+                layoutManager = LinearLayoutManager(context)
+                adapter = recipeAdapter
+            }
+        })
+    }
+
+    private fun getSearchResult(query: String) {
+        rannaghorViewModel.searchRecipeByName(query).observe(viewLifecycleOwner, Observer {
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }

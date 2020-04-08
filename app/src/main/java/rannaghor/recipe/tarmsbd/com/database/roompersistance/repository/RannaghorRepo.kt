@@ -14,15 +14,25 @@ class RannaghorRepo(private val rannaghorDao: RannaghorDao) {
         }
     }
 
-    suspend fun updateRecipe(recipe: Recipe){
+    suspend fun updateRecipe(recipe: Recipe) {
         rannaghorDao.updateRecipe(recipe)
     }
 
-    fun getFavoriteRecipes():LiveData<List<Recipe>> {
+    fun searchRecipeByName(query: String): LiveData<List<Recipe>> {
+        val mQuery = "%$query%"
+        return rannaghorDao.searchRecipe(mQuery)
+    }
+
+    fun searchSavedRecipeByName(query: String): LiveData<List<Recipe>> {
+        val mQuery = "%$query%"
+        return rannaghorDao.searchSavedRecipe(mQuery)
+    }
+
+    fun getFavoriteRecipes(): LiveData<List<Recipe>> {
         return rannaghorDao.getFavoriteRecipeList()
     }
 
-    fun getRecipeByCategory(category: String):LiveData<List<Recipe>> {
+    fun getRecipeByCategory(category: String): LiveData<List<Recipe>> {
         return rannaghorDao.getRecipesByCategories(category)
     }
 
