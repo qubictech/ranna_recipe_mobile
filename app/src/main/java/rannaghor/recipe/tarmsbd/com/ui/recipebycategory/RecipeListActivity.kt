@@ -18,6 +18,7 @@ import java.util.logging.Logger
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
 
+
     @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,10 @@ class RecipeListActivity : AppCompatActivity(R.layout.activity_recipe_list) {
                 adapter = recipeAdapter
             }
         })
+
+
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
