@@ -1,70 +1,79 @@
 package rannaghor.recipe.tarmsbd.com.adapter
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.formats.NativeAdOptions
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Recipe
-import rannaghor.recipe.tarmsbd.com.ui.recipedetails.RecipeDetails
+import rannaghor.recipe.tarmsbd.com.viewholder.RecipeHolder
+import java.util.logging.Logger
 
 class AllRecipeAdapter(private val context: Context, private val recipes: List<Recipe>) :
-    RecyclerView.Adapter<AllRecipeAdapter.RecipeHolder>() {
+    RecyclerView.Adapter<RecipeHolder>() {
 
-    class RecipeHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val name = itemView.findViewById<TextView>(R.id.comment_username)
-        private val likes = itemView.findViewById<TextView>(R.id.recipe_likes_count)
-        private val icon = itemView.findViewById<ImageView>(R.id.recipe_image)
-        @SuppressLint("DefaultLocale", "SetTextI18n")
-        fun bind(context: Context, recipe: Recipe) {
-            name.text = recipe.name?.trim()
-            likes.text = "${recipe.likes}"
-
-            Glide.with(context).load(R.mipmap.ic_launcher).into(icon)
-
-            icon.clipToOutline = true
-        }
-
-        fun onClickListener(context: Context, recipe: Recipe) {
-            val intent = Intent(context, RecipeDetails::class.java)
-            intent.putExtra(RecipeDetails.RECIPE_DETAIL, recipe)
-
-            val icon: View = itemView.findViewById<ImageView>(R.id.recipe_image)
-            val pairImage = Pair.create(icon, "recipe_icon")
-            val options = ActivityOptionsCompat
-                .makeSceneTransitionAnimation(context as Activity, pairImage)
-
-            context.startActivity(intent, options.toBundle())
-        }
+    companion object {
+        const val RECIPE_VIEW_TYPE = 0
+        const val UNIFIED_NATIVE_AD_VIEW_TYPE = 1
+        const val AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
-        val holder = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recipe_item, parent, false)
+
+        val holder = when (viewType) {
+            UNIFIED_NATIVE_AD_VIEW_TYPE -> {
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.ad_unified, parent, false)
+            }
+            else -> {
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.recipe_item, parent, false)
+            }
+        }
         return RecipeHolder(holder)
     }
 
     override fun getItemCount() = recipes.size
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
-        holder.bind(context, recipe = recipes[position])
-        holder.itemView.setOnClickListener {
-            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                try {
-                    holder.onClickListener(context, recipes[position])
-                } catch (e: Exception) {
-                    e.printStackTrace()
+        when (getItemViewType(position)) {
+            UNIFIED_NATIVE_AD_VIEW_TYPE -> {
+                val adLoader = AdLoader.Builder(context, AD_UNIT_ID)
+                    .forUnifiedNativeAd {
+                        holder.bindAdView(it)
+                    }
+                    .withAdListener(object : AdListener() {
+                        override fun onAdFailedToLoad(p0: Int) {
+                            super.onAdFailedToLoad(p0)
+
+                            Logger.getLogger("NativeAdLoader")
+                                .warning("Failed to load ad with error code $p0")
+                        }
+                    })
+                    .withNativeAdOptions(NativeAdOptions.Builder().build())
+
+                adLoader.build().loadAd(AdRequest.Builder().build())
+            }
+            RECIPE_VIEW_TYPE -> {
+                holder.bind(context, recipe = recipes[position])
+                holder.itemView.setOnClickListener {
+                    if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                        try {
+                            holder.onClickListener(context, recipes[position])
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
             }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 5 == 0) UNIFIED_NATIVE_AD_VIEW_TYPE else RECIPE_VIEW_TYPE
     }
 }
