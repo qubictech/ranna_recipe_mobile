@@ -1,7 +1,7 @@
 package rannaghor.recipe.tarmsbd.com.notification
 
 
-import android.R
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -14,26 +14,21 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONException
 import org.json.JSONObject
+import rannaghor.recipe.tarmsbd.com.R
 
 
+@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     var intent: Intent? = null
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-// Check if message contains a data payload.
-        if (remoteMessage.data.size > 0) {
-            Log.d(
-                TAG,
-                "Message data payload: " + remoteMessage.data
-            )
+        // Check if message contains a data payload.
+        if (remoteMessage.data.isNotEmpty()) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.data)
             try {
                 val data = JSONObject(remoteMessage.data as Map<*, *>)
                 val jsonMessage = data.getString("extra_information")
-                Log.d(
-                    TAG, """
-     onMessageReceived: 
-     Extra Information: $jsonMessage
-     """.trimIndent()
-                )
+                Log.d(TAG, "onMessageReceived: Extra Information: $jsonMessage".trimIndent())
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -43,21 +38,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage.notification != null) {
             val title = remoteMessage.notification!!.title //get title
             val message = remoteMessage.notification!!.body //get message
-            val click_action =
-                remoteMessage.notification!!.clickAction //get click_action
-            Log.d(
-                TAG,
-                "Message Notification Title: $title"
-            )
-            Log.d(
-                TAG,
-                "Message Notification Body: $message"
-            )
-            Log.d(
-                TAG,
-                "Message Notification click_action: $click_action"
-            )
-            sendNotification(title, message, click_action)
+            val clickAction = remoteMessage.notification!!.clickAction //get click_action
+
+            Log.d(TAG, "Message Notification Title: $title")
+            Log.d(TAG, "Message Notification Body: $message")
+            Log.d(TAG, "Message Notification click_action: $clickAction")
+
+            sendNotification(title, message, clickAction)
         }
     }
 
@@ -70,24 +57,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             this, 0 /* Request code */, intent,
             PendingIntent.FLAG_ONE_SHOT
         )
-        val defaultSoundUri =
-            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder =
-            NotificationCompat.Builder(this)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setSmallIcon(R.drawable.sym_def_app_icon)
-                .setContentTitle(title)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setDefaults(
-                    Notification.DEFAULT_VIBRATE or
-                            Notification.DEFAULT_SOUND or
-                            Notification.FLAG_SHOW_LIGHTS
-                )
-                .setContentIntent(pendingIntent)
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val defaultSoundUri = RingtoneManager
+            .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
+        val notificationBuilder = NotificationCompat
+            .Builder(this, "rannaghor_notification")
+            .setPriority(Notification.PRIORITY_HIGH)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(title)
+            .setContentText(messageBody)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+            .setDefaults(Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND or Notification.FLAG_SHOW_LIGHTS)
+            .setContentIntent(pendingIntent)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
+                as NotificationManager
 
         /* ID of notification */
         val id = (Math.random() * 10).toInt() + 1
@@ -95,6 +81,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
-        private const val TAG = "MyFirebaseMessagingServ"
+        private const val TAG = "MessagingService"
     }
 }
