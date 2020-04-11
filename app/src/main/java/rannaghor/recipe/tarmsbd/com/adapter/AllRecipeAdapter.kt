@@ -4,16 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.model.Recipe
 import rannaghor.recipe.tarmsbd.com.viewholder.RecipeHolder
-import java.util.logging.Logger
 
-class AllRecipeAdapter(private val context: Context, private val recipes: List<Recipe>) :
+class AllRecipeAdapter(private val context: Context, private val recipes: List<Any>) :
     RecyclerView.Adapter<RecipeHolder>() {
 
     companion object {
@@ -42,28 +38,14 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         when (getItemViewType(position)) {
             UNIFIED_NATIVE_AD_VIEW_TYPE -> {
-                val adLoader = AdLoader.Builder(context, AD_UNIT_ID)
-                    .forUnifiedNativeAd {
-                        holder.bindAdView(it)
-                    }
-                    .withAdListener(object : AdListener() {
-                        override fun onAdFailedToLoad(p0: Int) {
-                            super.onAdFailedToLoad(p0)
-
-                            Logger.getLogger("NativeAdLoader")
-                                .warning("Failed to load ad with error code $p0")
-                        }
-                    })
-                    .withNativeAdOptions(NativeAdOptions.Builder().build())
-
-                adLoader.build().loadAd(AdRequest.Builder().build())
+                holder.bindAdView(recipes[position] as UnifiedNativeAd)
             }
             RECIPE_VIEW_TYPE -> {
-                holder.bind(context, recipe = recipes[position])
+                holder.bind(context, recipe = recipes[position] as Recipe)
                 holder.itemView.setOnClickListener {
                     if (holder.adapterPosition != RecyclerView.NO_POSITION) {
                         try {
-                            holder.onClickListener(context, recipes[position])
+                            holder.onClickListener(context, recipes[position] as Recipe)
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -74,6 +56,6 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<R
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position % 5 == 0) UNIFIED_NATIVE_AD_VIEW_TYPE else RECIPE_VIEW_TYPE
+        return if (recipes[position] is Recipe) RECIPE_VIEW_TYPE else UNIFIED_NATIVE_AD_VIEW_TYPE
     }
 }

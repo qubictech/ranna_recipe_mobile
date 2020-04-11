@@ -15,6 +15,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.formats.NativeAdOptions
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
@@ -22,6 +26,7 @@ import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.Rannaghor
 import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import java.util.*
+import java.util.logging.Logger
 
 class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private lateinit var recyclerViewExploreByCategory: RecyclerView
@@ -30,6 +35,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var editTextSearchView: EditText
+
+    private val recipeAdapterList = mutableListOf<Any>()
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,9 +117,15 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
     private fun getAllRecipes() {
         rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
+            for (recipe in it) {
+                recipeAdapterList.add(recipe)
+            }
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
-            val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, it) }
+            val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, recipeAdapterList) }
+
+            val numberOfAds = it.size / 5 as Int
+            generateNativeAds(numberOfAds, recipeAdapter!!)
 
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
@@ -134,6 +147,28 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 adapter = recipeAdapter
             }
         })
+    }
+
+    private fun generateNativeAds(numberOfAds: Int, recipeAdapter: AllRecipeAdapter) {
+        var index = 0
+        val adLoader = AdLoader.Builder(context, AllRecipeAdapter.AD_UNIT_ID)
+            .forUnifiedNativeAd { ad ->
+                index += 5
+                recipeAdapterList.add(index, ad)
+                recipeAdapter.notifyDataSetChanged()
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(p0: Int) {
+                    super.onAdFailedToLoad(p0)
+
+                    Logger.getLogger("NativeAdLoader")
+                        .warning("Failed to load ad with error code $p0")
+                }
+            })
+            .withNativeAdOptions(NativeAdOptions.Builder().build())
+            .build()
+
+        adLoader.loadAds(AdRequest.Builder().build(), numberOfAds)
     }
 
     companion object {
