@@ -20,6 +20,8 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
@@ -28,6 +30,7 @@ import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import java.util.*
 import java.util.logging.Logger
+import kotlin.coroutines.EmptyCoroutineContext
 
 const val MAX_NUMBER_OF_ADS = 5
 
@@ -122,9 +125,9 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
     private fun getAllRecipes() {
         rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
-            for (recipe in it) {
-                recipeAdapterList.add(recipe)
-            }
+            recipeAdapterList.clear()
+            recipeAdapterList.addAll(it)
+
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, recipeAdapterList) }
@@ -132,42 +135,9 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
             val numberOfAds = it.size / 5 as Int
             Logger.getLogger("NumberOfAds").warning("$numberOfAds")
 
-            adLoader = AdLoader.Builder(context, AllRecipeAdapter.AD_UNIT_ID)
-                .forUnifiedNativeAd { ad ->
-
-                    nativeAd.add(ad)
-
-                    if (!adLoader.isLoading) {
-                        if (nativeAd.size > 0) {
-                            var index = 0
-                            val offset = (recipeAdapterList.size / nativeAd.size) + 1
-                            Logger.getLogger("NumberOfAds").warning("Offset: $offset")
-
-                            for (loadAd: UnifiedNativeAd in nativeAd) {
-                                recipeAdapterList.add(index, loadAd)
-                                index += offset
-                            }
-                            recipeAdapter!!.notifyDataSetChanged()
-                        } else {
-                            Logger.getLogger("UnifiedNativeAd")
-                                .warning("No ad loaded..........! -> ${nativeAd.size}")
-                        }
-                    } else {
-                        Logger.getLogger("UnifiedNativeAd")
-                            .warning("Loading.............! -> ${nativeAd.size}")
-                    }
-
-                }.withAdListener(object : AdListener() {
-                    override fun onAdFailedToLoad(p0: Int) {
-                        super.onAdFailedToLoad(p0)
-
-                        Logger.getLogger("NativeAdLoader")
-                            .warning("Failed to load ad with error code $p0")
-                    }
-                }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
-
-//            adLoader.loadAds(AdRequest.Builder().build(), numberOfAds)
-            adLoader.loadAds(AdRequest.Builder().build(), MAX_NUMBER_OF_ADS)
+            CoroutineScope(EmptyCoroutineContext).launch {
+                loadNativeAd(recipeAdapter!!)
+            }
 
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
@@ -175,6 +145,49 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 adapter = recipeAdapter
             }
         })
+    }
+
+    private fun loadNativeAd(recipeAdapter: AllRecipeAdapter) {
+        adLoader = AdLoader.Builder(context, AllRecipeAdapter.AD_UNIT_ID)
+            .forUnifiedNativeAd { ad ->
+
+                nativeAd.add(ad)
+
+                if (!adLoader.isLoading) {
+                    if (nativeAd.size > 0) {
+                        val offset = (recipeAdapterList.size / nativeAd.size) + 1
+                        var index = 0
+
+                        Logger.getLogger("NumberOfAds").warning("Offset: $offset")
+
+                        for (loadAd: UnifiedNativeAd in nativeAd) {
+                            recipeAdapterList.add(index, loadAd)
+                            index += offset
+                        }
+                        recipeAdapter.notifyDataSetChanged()
+                    } else {
+                        Logger.getLogger("UnifiedNativeAd")
+                            .warning("No ad loaded..........! -> ${nativeAd.size}")
+                    }
+                } else {
+                    Logger.getLogger("UnifiedNativeAd")
+                        .warning("Loading.............! -> ${nativeAd.size}")
+                }
+
+            }.withAdListener(object : AdListener() {
+                override fun onAdFailedToLoad(p0: Int) {
+                    super.onAdFailedToLoad(p0)
+
+                    Logger.getLogger("NativeAdLoader")
+                        .warning("Failed to load ad with error code $p0")
+                }
+            }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
+
+        if (recipeAdapterList.size != 0 && recipeAdapterList.size / 5 < 5) {
+            adLoader.loadAds(AdRequest.Builder().build(), recipeAdapterList.size / 5)
+        } else if (recipeAdapterList.size / 5 > 5) {
+            adLoader.loadAds(AdRequest.Builder().build(), MAX_NUMBER_OF_ADS)
+        }
     }
 
     private fun getSearchResult(query: String) {

@@ -13,7 +13,7 @@ interface RannaghorDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateRecipe(recipe: Recipe)
 
-    @Query("SELECT * FROM Recipe ORDER BY likes DESC")
+    @Query("SELECT * FROM Recipe WHERE likes > 0")
     fun getAllRecipes(): LiveData<List<Recipe>>
 
     @Query("SELECT * FROM Recipe WHERE type=:category")

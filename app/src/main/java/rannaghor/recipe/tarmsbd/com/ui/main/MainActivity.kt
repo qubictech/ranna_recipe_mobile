@@ -15,7 +15,6 @@ import rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel.Rannaghor
 import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,30 +27,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         setupBottomNavigationView()
-        val rannaghorRoomViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
-
-        val retrofit = RetrofitClient.INSTANCE
-        val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
-
-        compositeDisposable.add(
-            rannaghorRetrofitService.recipe
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { recipes ->
-                        try {
-                            rannaghorRoomViewModel.insertRecipes(recipes)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }, this::handleError
-                )
-        )
-    }
-
-    private fun handleError(error: Throwable) {
-        Logger.getLogger("MainActivity")
-            .warning("   Error: ${error.localizedMessage}")
     }
 
     private fun setupBottomNavigationView() {
@@ -70,10 +45,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
             return@setOnNavigationItemSelectedListener true
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
     }
 }
