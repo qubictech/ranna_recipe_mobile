@@ -29,6 +29,8 @@ import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import java.util.*
 import java.util.logging.Logger
 
+const val MAX_NUMBER_OF_ADS = 5
+
 class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private lateinit var recyclerViewExploreByCategory: RecyclerView
     private lateinit var recyclerViewPopularRecipe: RecyclerView
@@ -164,7 +166,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                     }
                 }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
 
-            adLoader.loadAds(AdRequest.Builder().build(), numberOfAds)
+//            adLoader.loadAds(AdRequest.Builder().build(), numberOfAds)
+            adLoader.loadAds(AdRequest.Builder().build(), MAX_NUMBER_OF_ADS)
 
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
