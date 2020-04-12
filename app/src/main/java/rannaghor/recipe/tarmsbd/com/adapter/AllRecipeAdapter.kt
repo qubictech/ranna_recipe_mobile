@@ -15,7 +15,9 @@ class AllRecipeAdapter(private val context: Context, private val recipes: List<A
     companion object {
         const val RECIPE_VIEW_TYPE = 0
         const val UNIFIED_NATIVE_AD_VIEW_TYPE = 1
-        const val AD_UNIT_ID = "ca-app-pub-3436342122495555/6779138259"
+//        const val AD_UNIT_ID = "ca-app-pub-3436342122495555/6779138259"
+        //test Ad
+        const val AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110"
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
