@@ -28,8 +28,8 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
         const val DAL = "ডাল"
         const val RICE = "খিচুড়ী,পোলাও,বিরিয়ান"
         const val FISH = "মাছ"
-        const val CAKE = "কেক,বিস্কুট"
-        const val PITHA = "পিঠা"
+        const val BISCUIT = "কেক,বিস্কুট"
+        const val CAKE = "পিঠা"
     }
 
     class CategoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,11 +64,11 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
                 category.trim().contains(FISH) -> {
                     Glide.with(context).load(R.drawable.ic_fish).into(icon)
                 }
+                category.trim().contains(BISCUIT) -> {
+                    Glide.with(context).load(R.drawable.ic_biscuit).into(icon)
+                }
                 category.trim().contains(CAKE) -> {
                     Glide.with(context).load(R.drawable.ic_cake).into(icon)
-                }
-                category.trim().contains(PITHA) -> {
-                    Glide.with(context).load(R.drawable.ic_soup).into(icon)
                 }
                 else -> Glide.with(context).load(R.mipmap.ic_launcher).into(icon)
             }
