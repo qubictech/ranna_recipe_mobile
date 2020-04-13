@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.dao.RannaghorDao
 import rannaghor.recipe.tarmsbd.com.model.Recipe
 
-@Database(entities = [Recipe::class], version = 4, exportSchema = false)
+@Database(entities = [Recipe::class], version = 6, exportSchema = false)
 abstract class RannaghorDatabase : RoomDatabase() {
     abstract fun rannaghorDao(): RannaghorDao
 

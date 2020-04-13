@@ -183,11 +183,10 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 }
             }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
 
-        if (recipeAdapterList.size != 0 && recipeAdapterList.size / 5 < 5) {
-            adLoader.loadAds(AdRequest.Builder().build(), recipeAdapterList.size / 5)
-        } else if (recipeAdapterList.size / 5 > 5) {
+        if (recipeAdapterList.size / 5 > 5) {
             adLoader.loadAds(AdRequest.Builder().build(), MAX_NUMBER_OF_ADS)
-        }
+        } else adLoader.loadAd(AdRequest.Builder().build())
+
     }
 
     private fun getSearchResult(query: String) {
