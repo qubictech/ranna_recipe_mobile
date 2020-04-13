@@ -16,10 +16,10 @@ interface RannaghorDao {
     @Query("SELECT * FROM Recipe WHERE likes > 0")
     fun getAllRecipes(): LiveData<List<Recipe>>
 
-    @Query("SELECT * FROM Recipe WHERE type=:category")
+    @Query("SELECT * FROM Recipe WHERE type LIKE :category")
     fun getRecipesByCategories(category: String): LiveData<List<Recipe>>
 
-    @Query("SELECT DISTINCT type FROM Recipe")
+    @Query("SELECT DISTINCT type FROM Recipe ORDER BY LENGTH(type)")
     fun getAllCategories(): LiveData<List<String>>
 
     @Query("SELECT * FROM Recipe WHERE liked = 1")

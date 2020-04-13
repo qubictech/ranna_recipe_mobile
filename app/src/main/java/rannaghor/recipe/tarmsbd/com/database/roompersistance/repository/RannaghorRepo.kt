@@ -33,7 +33,7 @@ class RannaghorRepo(private val rannaghorDao: RannaghorDao) {
     }
 
     fun getRecipeByCategory(category: String): LiveData<List<Recipe>> {
-        return rannaghorDao.getRecipesByCategories(category)
+        return rannaghorDao.getRecipesByCategories("%$category%")
     }
 
 }

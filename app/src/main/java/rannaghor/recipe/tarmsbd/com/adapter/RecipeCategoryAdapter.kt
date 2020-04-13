@@ -20,7 +20,7 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
     RecyclerView.Adapter<RecipeCategoryAdapter.CategoryHolder>() {
 
     companion object {
-        const val DRINKS = "পানীয়"
+        const val DRINKS = "পানীয়"
         const val BREAKFAST = "নাস্তা"
         const val VEGETABLE = "শাক-সবজী"
         const val MEAT = "মাংস"
@@ -30,6 +30,11 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
         const val FISH = "মাছ"
         const val BISCUIT = "কেক,বিস্কুট"
         const val CAKE = "পিঠা"
+        const val SOUP = "স্যুপ"
+        const val SWEET = "মিষ্টি"
+        const val PUDDING = "পুডিং"
+        const val ACAR = "আচার"
+        const val FOREIGN_FOOD = "বিদেশি খাবার"
     }
 
     class CategoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -69,6 +74,21 @@ class RecipeCategoryAdapter(private var context: Context, private var category: 
                 }
                 category.trim().contains(CAKE) -> {
                     Glide.with(context).load(R.drawable.ic_cake).into(icon)
+                }
+                category.trim().contains(SOUP) -> {
+                    Glide.with(context).load(R.drawable.ic_soup).into(icon)
+                }
+                category.trim().contains(SWEET) -> {
+                    Glide.with(context).load(R.drawable.ic_sweet).into(icon)
+                }
+                category.trim().contains(PUDDING) -> {
+                    Glide.with(context).load(R.drawable.ic_pudding).into(icon)
+                }
+                category.trim().contains(ACAR) -> {
+                    Glide.with(context).load(R.drawable.ic_acar).into(icon)
+                }
+                category.trim().contains(FOREIGN_FOOD) -> {
+                    Glide.with(context).load(R.drawable.ic_foreign_food).into(icon)
                 }
                 else -> Glide.with(context).load(R.mipmap.ic_launcher).into(icon)
             }
