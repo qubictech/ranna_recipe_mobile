@@ -86,10 +86,10 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
             android.R.id.home -> super.onBackPressed()
 
             R.id.menu_like_recipe -> {
-                val recipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
-                recipe?.let {
-                    if (it.liked == 0) {
-                        it.liked = 1
+                val mRecipe = intent.getParcelableExtra<Recipe>(RECIPE_DETAIL)
+                mRecipe?.let { recipe ->
+                    if (recipe.liked == 0) {
+                        recipe.liked = 1
                         Toast.makeText(
                             applicationContext,
                             "Recipe Saved to Saved List!",
@@ -97,7 +97,7 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
                         ).show()
 
                         compositeDisposable.add(
-                            rannaghorRetrofitService.recipe
+                            rannaghorRetrofitService.incrementLikes(id = recipe.id)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
@@ -108,7 +108,7 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
                                 )
                         )
                     } else {
-                        it.liked = 0
+                        recipe.liked = 0
                         Toast.makeText(
                             applicationContext,
                             "Recipe Removed From Saved List!",
@@ -116,7 +116,7 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
                         ).show()
                     }
 
-                    rannaghorViewModel.updateRecipe(it)
+                    rannaghorViewModel.updateRecipe(recipe)
                 }
             }
         }

@@ -21,7 +21,9 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
@@ -30,7 +32,6 @@ import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import java.util.*
 import java.util.logging.Logger
-import kotlin.coroutines.EmptyCoroutineContext
 
 const val MAX_NUMBER_OF_ADS = 5
 
@@ -132,11 +133,10 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
 
             val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, recipeAdapterList) }
 
-            val numberOfAds = it.size / 5 as Int
-            Logger.getLogger("NumberOfAds").warning("$numberOfAds")
-
-            CoroutineScope(EmptyCoroutineContext).launch {
-                loadNativeAd(recipeAdapter!!)
+            CoroutineScope(Dispatchers.Main).launch {
+                if (it.isNotEmpty()) {
+                    loadNativeAd(MAX_NUMBER_OF_ADS, recipeAdapter!!)
+                }
             }
 
             recyclerViewPopularRecipe.apply {
@@ -147,7 +147,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
         })
     }
 
-    private fun loadNativeAd(recipeAdapter: AllRecipeAdapter) {
+    private suspend fun loadNativeAd(adCounter: Int, recipeAdapter: AllRecipeAdapter) {
         adLoader = AdLoader.Builder(context, AllRecipeAdapter.AD_UNIT_ID)
             .forUnifiedNativeAd { ad ->
 
@@ -183,9 +183,9 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 }
             }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
 
-        if (recipeAdapterList.size / 5 > 5) {
-            adLoader.loadAds(AdRequest.Builder().build(), MAX_NUMBER_OF_ADS)
-        } else adLoader.loadAd(AdRequest.Builder().build())
+        withContext(Dispatchers.Main) {
+            adLoader.loadAd(AdRequest.Builder().build())
+        }
 
     }
 
