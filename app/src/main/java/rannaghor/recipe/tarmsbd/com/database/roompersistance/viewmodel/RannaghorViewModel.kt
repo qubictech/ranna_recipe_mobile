@@ -30,26 +30,32 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun loadRecipeFromNetwork() {
-        val retrofit = RetrofitClient.INSTANCE
-        val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
+        viewModelScope.launch {
+            val retrofit = RetrofitClient.INSTANCE
+            val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
 
-        compositeDisposable.add(
-            rannaghorRetrofitService.recipe
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { result ->
-                        if (result.isSuccessful) {
-                            Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
-                            result.body()?.let {
-                                insertRecipes(it)
+            compositeDisposable.add(
+                rannaghorRetrofitService.recipe
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { result ->
+                            if (result.isSuccessful) {
+                                Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
+                                result.body()?.let {
+                                    insertRecipes(it)
+                                }
+                            } else {
+                                Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
+                        }, {
+                            Logger.getLogger("MainActivity")
+                                .warning("   Error: ${it.localizedMessage}")
+                            Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
                         }
-                    }, this::handleError
-                )
-        )
+                    )
+            )
+        }
     }
 
     fun getRecipes(): LiveData<List<Recipe>> = repository.allRecipes()
@@ -64,18 +70,12 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getRecipesByCategory(category: String) = repository.getRecipeByCategory(category)
 
-    fun insertRecipes(recipes: List<Recipe>) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertRecipes(recipes: List<Recipe>) = viewModelScope.launch(Dispatchers.IO) {
         repository.addRecipes(recipes)
     }
 
     fun updateRecipe(recipe: Recipe) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateRecipe(recipe)
-    }
-
-    private fun handleError(error: Throwable) {
-        Logger.getLogger("MainActivity")
-            .warning("   Error: ${error.localizedMessage}")
-        Toast.makeText(context, error.localizedMessage, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCleared() {

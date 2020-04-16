@@ -37,5 +37,11 @@ interface RannaghorRetrofitService {
     fun incrementLikes(
         @Query("liked") liked: String = "true",
         @Query("id") id: String
-    ): Flowable<List<Recipe>>
+    ): Flowable<Response<List<Recipe>>>
+
+    @POST("/api/recipe.php")
+    fun decrementLikes(
+        @Query("liked") liked: String = "false",
+        @Query("id") id: String
+    ): Flowable<Response<List<Recipe>>>
 }

@@ -92,18 +92,37 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
                         recipe.liked = 1
                         Toast.makeText(
                             applicationContext,
-                            "Recipe Saved to Saved List!",
+                            "Saving......",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        rannaghorViewModel.updateRecipe(recipe)
 
                         compositeDisposable.add(
                             rannaghorRetrofitService.incrementLikes(id = recipe.id)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
-                                    { recipes ->
-                                        Logger.getLogger("Recipe Detail").warning("LIKED")
-                                        rannaghorViewModel.insertRecipes(recipes)
+                                    { result ->
+                                        if (result.isSuccessful) {
+                                            result.body()?.let {
+                                                Toast.makeText(
+                                                    applicationContext,
+                                                    "Saved!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+
+                                                val updateRecipe = it[0]
+                                                updateRecipe.liked = 1
+                                                rannaghorViewModel.updateRecipe(updateRecipe)
+                                            }
+                                        } else {
+                                            Toast.makeText(
+                                                applicationContext,
+                                                result.message(),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
                                     }, this::handleError
                                 )
                         )
@@ -111,12 +130,41 @@ class RecipeDetails : AppCompatActivity(R.layout.activity_recipe_details) {
                         recipe.liked = 0
                         Toast.makeText(
                             applicationContext,
-                            "Recipe Removed From Saved List!",
+                            "Removing........",
                             Toast.LENGTH_SHORT
                         ).show()
-                    }
 
-                    rannaghorViewModel.updateRecipe(recipe)
+                        rannaghorViewModel.updateRecipe(recipe)
+
+                        compositeDisposable.add(
+                            rannaghorRetrofitService.decrementLikes(id = recipe.id)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                    { result ->
+                                        if (result.isSuccessful) {
+                                            result.body()?.let {
+                                                Toast.makeText(
+                                                    applicationContext,
+                                                    "Removed!",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+
+                                                val updateRecipe = it[0]
+                                                updateRecipe.liked = 0
+                                                rannaghorViewModel.updateRecipe(updateRecipe)
+                                            }
+                                        } else {
+                                            Toast.makeText(
+                                                applicationContext,
+                                                result.message(),
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }, this::handleError
+                                )
+                        )
+                    }
                 }
             }
         }

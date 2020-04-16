@@ -20,10 +20,7 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
@@ -46,6 +43,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private val recipeAdapterList = mutableListOf<Any>()
     private val nativeAd = mutableListOf<UnifiedNativeAd>()
     private lateinit var adLoader: AdLoader
+
+    private lateinit var recipeAdapter: AllRecipeAdapter
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -126,19 +125,14 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     }
 
     private fun getAllRecipes() {
+        recipeAdapter = AllRecipeAdapter(context!!, recipeAdapterList)
+        recipeAdapterList.clear()
+
         rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
             recipeAdapterList.clear()
             recipeAdapterList.addAll(it)
 
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
-
-            val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, recipeAdapterList) }
-
-            CoroutineScope(Dispatchers.Main).launch {
-                if (it.isNotEmpty()) {
-                    loadNativeAd(MAX_NUMBER_OF_ADS, recipeAdapter!!)
-                }
-            }
 
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
@@ -146,9 +140,16 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 adapter = recipeAdapter
             }
         })
+
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            val size = recipeAdapterList.size / 3
+            if (recipeAdapter.itemCount > 0 && size > 0)
+                if (size > 5) loadNativeAd(MAX_NUMBER_OF_ADS) else loadNativeAd(size)
+        }
     }
 
-    private suspend fun loadNativeAd(adCounter: Int, recipeAdapter: AllRecipeAdapter) {
+    private suspend fun loadNativeAd(adCounter: Int) {
         adLoader = AdLoader.Builder(context, AllRecipeAdapter.AD_UNIT_ID)
             .forUnifiedNativeAd { ad ->
 
@@ -185,7 +186,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
             }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
 
         withContext(Dispatchers.Main) {
-            adLoader.loadAd(AdRequest.Builder().build())
+            adLoader.loadAds(AdRequest.Builder().build(), adCounter)
         }
 
     }

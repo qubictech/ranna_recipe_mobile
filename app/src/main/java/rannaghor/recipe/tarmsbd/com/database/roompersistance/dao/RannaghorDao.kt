@@ -7,10 +7,10 @@ import rannaghor.recipe.tarmsbd.com.model.Recipe
 @Dao
 interface RannaghorDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addRecipes(recipe: Recipe)
 
-    @Update(onConflict = OnConflictStrategy.ABORT)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateRecipe(recipe: Recipe)
 
     @Query("SELECT * FROM Recipe WHERE likes > 0")
