@@ -11,7 +11,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import rannaghor.recipe.tarmsbd.com.database.network.RannaghorRetrofitService
 import rannaghor.recipe.tarmsbd.com.database.network.RetrofitClient
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.repository.RannaghorRepo
@@ -28,17 +27,9 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
         val rannaghorDao = RannaghorDatabase.getDatabase(application).rannaghorDao()
         repository = RannaghorRepo(rannaghorDao)
         context = application.applicationContext
-
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                loadRecipeFromNetwork {
-                    insertRecipes(it)
-                }
-            }
-        }
     }
 
-    private fun loadRecipeFromNetwork(onComplete: (List<Recipe>) -> Unit) {
+    fun loadRecipeFromNetwork() {
         val retrofit = RetrofitClient.INSTANCE
         val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
 
@@ -50,7 +41,9 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
                     { result ->
                         if (result.isSuccessful) {
                             Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
-                            return@subscribe onComplete(result.body()!!)
+                            result.body()?.let {
+                                insertRecipes(it)
+                            }
                         } else {
                             Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
                         }

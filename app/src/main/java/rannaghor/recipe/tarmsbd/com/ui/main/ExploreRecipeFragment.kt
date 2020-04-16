@@ -60,6 +60,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
         editTextSearchView.clearFocus()
 
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
+        rannaghorViewModel.loadRecipeFromNetwork()
 
         editTextSearchView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
