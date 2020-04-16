@@ -34,6 +34,8 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
             val retrofit = RetrofitClient.INSTANCE
             val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
 
+            println("RannaghorViewModel -> ${compositeDisposable.size()}")
+
             compositeDisposable.add(
                 rannaghorRetrofitService.recipe
                     .subscribeOn(Schedulers.io())
@@ -41,6 +43,8 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
                     .subscribe(
                         { result ->
                             if (result.isSuccessful) {
+                                println("RannaghorViewModel -> ${result.body()}")
+
                                 Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
                                 result.body()?.let {
                                     insertRecipes(it)
@@ -55,6 +59,8 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
                         }
                     )
             )
+            println("RannaghorViewModel -> ${compositeDisposable.size()}")
+            println("RannaghorViewModel -> ${compositeDisposable.isDisposed()}")
         }
     }
 

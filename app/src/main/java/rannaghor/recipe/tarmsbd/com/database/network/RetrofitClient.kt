@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val BASE_URL = "http://rannaghor.tarmsbd.com/"
+const val BASE_URL = "https://rannaghor.tarmsbd.com/"
 
 object RetrofitClient {
     private var mInstance: Retrofit? = null
