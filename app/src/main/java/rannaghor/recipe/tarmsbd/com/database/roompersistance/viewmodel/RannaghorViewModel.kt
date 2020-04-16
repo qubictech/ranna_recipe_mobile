@@ -1,13 +1,14 @@
 package rannaghor.recipe.tarmsbd.com.database.roompersistance.viewmodel
 
 import android.app.Application
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rannaghor.recipe.tarmsbd.com.database.network.RannaghorRetrofitService
@@ -16,48 +17,52 @@ import rannaghor.recipe.tarmsbd.com.database.roompersistance.repository.Rannagho
 import rannaghor.recipe.tarmsbd.com.database.roompersistance.sqlite.RannaghorDatabase
 import rannaghor.recipe.tarmsbd.com.model.Recipe
 import java.util.logging.Logger
-import kotlin.coroutines.EmptyCoroutineContext
 
 class RannaghorViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: RannaghorRepo
     private val compositeDisposable = CompositeDisposable()
+    private val context: Context
 
     init {
         val rannaghorDao = RannaghorDatabase.getDatabase(application).rannaghorDao()
         repository = RannaghorRepo(rannaghorDao)
+        context = application.applicationContext
+    }
 
-        CoroutineScope(EmptyCoroutineContext).launch {
-            loadRecipeFromNetwork {
-                insertRecipes(it)
-            }
+    fun loadRecipeFromNetwork() {
+        viewModelScope.launch {
+            val retrofit = RetrofitClient.INSTANCE
+            val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
+
+            compositeDisposable.add(
+                rannaghorRetrofitService.recipe
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        { result ->
+                            if (result.isSuccessful) {
+                                Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
+                                result.body()?.let {
+                                    insertRecipes(it)
+                                }
+                            } else {
+                                Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
+                            }
+                        }, {
+                            Logger.getLogger("MainActivity")
+                                .warning("   Error: ${it.localizedMessage}")
+                            Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                        }
+                    )
+            )
         }
     }
 
-    private fun loadRecipeFromNetwork(onComplete: (List<Recipe>) -> Unit) {
-        val retrofit = RetrofitClient.INSTANCE
-        val rannaghorRetrofitService = retrofit.create(RannaghorRetrofitService::class.java)
-
-        compositeDisposable.add(
-            rannaghorRetrofitService.recipe
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { recipes ->
-                        try {
-                            return@subscribe onComplete(recipes)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }, this::handleError
-                )
-        )
-    }
-
-    fun getRecipes(): LiveData<List<Recipe>> = repository.allRecipes
+    fun getRecipes(): LiveData<List<Recipe>> = repository.allRecipes()
 
     fun searchRecipeByName(query: String) = repository.searchRecipeByName(query)
 
-    fun getCategories(): LiveData<List<String>> = repository.allCategories
+    fun getCategories(): LiveData<List<String>> = repository.allCategories()
 
     fun getFavoriteRecipes() = repository.getFavoriteRecipes()
 
@@ -65,17 +70,12 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getRecipesByCategory(category: String) = repository.getRecipeByCategory(category)
 
-    fun insertRecipes(recipes: List<Recipe>) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertRecipes(recipes: List<Recipe>) = viewModelScope.launch(Dispatchers.IO) {
         repository.addRecipes(recipes)
     }
 
     fun updateRecipe(recipe: Recipe) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateRecipe(recipe)
-    }
-
-    private fun handleError(error: Throwable) {
-        Logger.getLogger("MainActivity")
-            .warning("   Error: ${error.localizedMessage}")
     }
 
     override fun onCleared() {

@@ -2,10 +2,13 @@ package rannaghor.recipe.tarmsbd.com.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.gms.ads.MobileAds
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.ui.main.MainActivity
 
@@ -17,9 +20,10 @@ class SplashActivity : AppCompatActivity(R.layout.activity_splash) {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        Handler().postDelayed({
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(4000)
             startActivity(Intent(applicationContext, MainActivity::class.java))
             finish()
-        }, 4000)
+        }
     }
 }

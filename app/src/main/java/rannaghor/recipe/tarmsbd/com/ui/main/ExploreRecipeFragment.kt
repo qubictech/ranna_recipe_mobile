@@ -20,8 +20,7 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.formats.UnifiedNativeAd
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import rannaghor.recipe.tarmsbd.com.R
 import rannaghor.recipe.tarmsbd.com.adapter.AllRecipeAdapter
 import rannaghor.recipe.tarmsbd.com.adapter.RecipeCategoryAdapter
@@ -30,7 +29,6 @@ import rannaghor.recipe.tarmsbd.com.ui.profile.ProfileFragment
 import rannaghor.recipe.tarmsbd.com.utility.SharedPrefUtil
 import java.util.*
 import java.util.logging.Logger
-import kotlin.coroutines.EmptyCoroutineContext
 
 const val MAX_NUMBER_OF_ADS = 5
 
@@ -46,6 +44,8 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private val nativeAd = mutableListOf<UnifiedNativeAd>()
     private lateinit var adLoader: AdLoader
 
+    private lateinit var recipeAdapter: AllRecipeAdapter
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +59,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
         editTextSearchView.clearFocus()
 
         rannaghorViewModel = ViewModelProvider(this).get(RannaghorViewModel::class.java)
+        rannaghorViewModel.loadRecipeFromNetwork()
 
         editTextSearchView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -124,20 +125,15 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     }
 
     private fun getAllRecipes() {
+        recipeAdapter = AllRecipeAdapter(context!!, recipeAdapterList)
+        recipeAdapterList.clear()
+        nativeAd.clear()
+
         rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
             recipeAdapterList.clear()
             recipeAdapterList.addAll(it)
 
             if (it.isNotEmpty()) swipeRefreshLayout.isRefreshing = false
-
-            val recipeAdapter = context?.let { it1 -> AllRecipeAdapter(it1, recipeAdapterList) }
-
-            val numberOfAds = it.size / 5 as Int
-            Logger.getLogger("NumberOfAds").warning("$numberOfAds")
-
-            CoroutineScope(EmptyCoroutineContext).launch {
-                loadNativeAd(recipeAdapter!!)
-            }
 
             recyclerViewPopularRecipe.apply {
                 hasFixedSize()
@@ -145,9 +141,16 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 adapter = recipeAdapter
             }
         })
+
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            val size = recipeAdapterList.size / 3
+            if (recipeAdapter.itemCount > 0 && size > 0)
+                if (size > 5) loadNativeAd(MAX_NUMBER_OF_ADS) else loadNativeAd(size)
+        }
     }
 
-    private fun loadNativeAd(recipeAdapter: AllRecipeAdapter) {
+    private suspend fun loadNativeAd(adCounter: Int) {
         adLoader = AdLoader.Builder(context, AllRecipeAdapter.AD_UNIT_ID)
             .forUnifiedNativeAd { ad ->
 
@@ -183,9 +186,9 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
                 }
             }).withNativeAdOptions(NativeAdOptions.Builder().build()).build()
 
-        if (recipeAdapterList.size / 5 > 5) {
-            adLoader.loadAds(AdRequest.Builder().build(), MAX_NUMBER_OF_ADS)
-        } else adLoader.loadAd(AdRequest.Builder().build())
+        withContext(Dispatchers.Main) {
+            adLoader.loadAds(AdRequest.Builder().build(), adCounter)
+        }
 
     }
 
