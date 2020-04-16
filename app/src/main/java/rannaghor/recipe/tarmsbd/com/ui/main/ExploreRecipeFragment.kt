@@ -127,6 +127,7 @@ class ExploreRecipeFragment : Fragment(R.layout.fragment_explore_recipe) {
     private fun getAllRecipes() {
         recipeAdapter = AllRecipeAdapter(context!!, recipeAdapterList)
         recipeAdapterList.clear()
+        nativeAd.clear()
 
         rannaghorViewModel.getRecipes().observe(viewLifecycleOwner, Observer {
             recipeAdapterList.clear()
