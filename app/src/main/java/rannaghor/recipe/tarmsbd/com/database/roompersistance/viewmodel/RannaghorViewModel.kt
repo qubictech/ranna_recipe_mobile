@@ -29,9 +29,6 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
         context = application.applicationContext
     }
 
-    fun loadRecipeFromApi(){
-
-    }
     fun loadRecipeFromNetwork() {
         viewModelScope.launch {
             val retrofit = RetrofitClient.INSTANCE
