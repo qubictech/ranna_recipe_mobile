@@ -29,6 +29,9 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
         context = application.applicationContext
     }
 
+    fun loadRecipeFromApi(){
+
+    }
     fun loadRecipeFromNetwork() {
         viewModelScope.launch {
             val retrofit = RetrofitClient.INSTANCE
@@ -42,8 +45,9 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         { result ->
+                            println("Response ->"+result.code())
+
                             if (result.isSuccessful) {
-                                println("RannaghorViewModel -> ${result.body()}")
 
                                 Toast.makeText(context, result.message(), Toast.LENGTH_SHORT).show()
                                 result.body()?.let {
@@ -55,12 +59,10 @@ class RannaghorViewModel(application: Application) : AndroidViewModel(applicatio
                         }, {
                             Logger.getLogger("MainActivity")
                                 .warning("   Error: ${it.localizedMessage}")
-                            Toast.makeText(context, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, it.localizedMessage.toString(), Toast.LENGTH_SHORT).show()
                         }
                     )
             )
-            println("RannaghorViewModel -> ${compositeDisposable.size()}")
-            println("RannaghorViewModel -> ${compositeDisposable.isDisposed()}")
         }
     }
 

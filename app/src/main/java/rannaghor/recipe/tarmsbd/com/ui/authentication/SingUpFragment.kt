@@ -98,5 +98,9 @@ class SingUpFragment : Fragment(R.layout.fragment_sing_up) {
 
     private fun handleError(error: Throwable) {
         Logger.getLogger("SingUpFragment").warning("   Error: ${error.localizedMessage}")
+        Toast.makeText(
+            context, "Registration Failed-- ${error.localizedMessage}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
